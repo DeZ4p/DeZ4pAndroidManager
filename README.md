@@ -1,7 +1,7 @@
 <!-- (c) DeZ4p | t.me/DeZ4p | All Rights Reserved -->
 
-**Language / زبان:** &nbsp;
-[English](README.md) &nbsp;|&nbsp; [فارسی](README.fa.md)
+**Language / Ø²Ø¨Ø§Ù†:** &nbsp;
+[English](README.md) &nbsp;|&nbsp; [ÙØ§Ø±Ø³ÛŒ](README.fa.md)
 
 ---
 <div align="center">
@@ -47,43 +47,62 @@
 
 <div align="center">
 
-### Dashboard - Real-time device overview
+### Dashboard
+Real-time device overview with battery, RAM, storage, CPU, network, and health score.
+
 ![Dashboard](docs/screenshots/01-dashboard.png)
 
-### Device Info - Complete hardware & software details
+### Device Info
+Complete hardware and software information — 60+ fields.
+
 ![Device Info](docs/screenshots/02-device-info.png)
 
-### File Manager - Browse, upload, download, edit
+### File Manager
+Browse, download, upload, and manage files on the device.
+
 ![File Manager](docs/screenshots/03-file-manager.png)
 
-### APK Installer - Single APK + split APKS
-![APK Installer](docs/screenshots/04-apk-installer.png)
+### Apps Manager
+List installed apps, get APK info, uninstall.
 
-### Reboot Options - 7 modes
-![Reboot](docs/screenshots/05-reboot.png)
+![Apps Manager](docs/screenshots/04-apps-manager.png)
 
-### Settings - Themes and language
-![Settings](docs/screenshots/06-settings.png)
+### APK Installer
+Install single `.apk` files or split `.apks` packages.
 
-### Lock Screen - When no device connected
-![Lock Screen](docs/screenshots/07-lock-screen.png)
+![APK Installer](docs/screenshots/05-apk-installer.png)
 
-### Access Gate - Wrong device mode
-![Access Gate](docs/screenshots/08-access-gate.png)
+### Flash Tools
+Flash boot, recovery, system, and vendor partitions.
 
-### Light Theme
-![Light Theme](docs/screenshots/09-light-theme.png)
+![Flash Tools](docs/screenshots/06-flash-tools.png)
 
-### Persian (RTL)
-![Persian](docs/screenshots/10-persian.png)
+### ADB Console
+Interactive `adb shell` with output capture.
+
+![ADB Console](docs/screenshots/07-adb-console.png)
+
+### Logcat Viewer
+Real-time device logs with filter.
+
+![Logcat Viewer](docs/screenshots/08-logcat-viewer.png)
+
+### Settings
+Themes, language, and application preferences.
+
+![Settings](docs/screenshots/09-settings.png)
+
+### Battery Lab
+Cycle count, design capacity, current capacity, health, age.
+
+![Battery Lab](docs/screenshots/10-battery-lab.png)
 
 </div>
-
 ---
 
 ## What is this?
 
-**DeZ4p Android Manager** is a professional Windows desktop application that gives you **complete control over any Android device** — from a single clean interface.
+**DeZ4p Android Manager** is a professional Windows desktop application that gives you **complete control over any Android device** â€” from a single clean interface.
 
 It wraps every day-to-day Android power-user task into one app:
 
@@ -98,82 +117,82 @@ It wraps every day-to-day Android power-user task into one app:
 - **Security center** (SELinux, root, verified boot)
 - **Wireless ADB** (Wi-Fi pairing without USB)
 
-And much more — all **bilingual (English + Persian)** with **full RTL support**, **Dark & Light themes**, and **zero runtime dependencies** for the end user.
+And much more â€” all **bilingual (English + Persian)** with **full RTL support**, **Dark & Light themes**, and **zero runtime dependencies** for the end user.
 
 ---
 
 ## Features
 
-### 📊 Monitoring & Info
+### ðŸ“Š Monitoring & Info
 
-- **Live Dashboard** — Real-time battery level, health, temperature, voltage, storage, RAM, CPU load, network speed, uptime
-- **Health Score** — Composite device health score based on multiple factors
-- **Top Apps** — Live list of apps by CPU and RAM usage
-- **Battery Lab** — Cycle count, design capacity, current capacity, health %, age
-- **Thermal Zones** — CPU, GPU, battery, skin temperature sensors
-- **Storage Breakdown** — Per-category breakdown of device storage
-- **Sensors Panel** — All hardware sensors with live values
-- **Device Info** — 60+ fields: brand, model, codename, Android version, SDK, security patch, CPU, GPU, RAM, storage, resolution, density, refresh rate, WiFi, Bluetooth, SIM, baseband, kernel, bootloader, root, SELinux, verified boot
+- **Live Dashboard** â€” Real-time battery level, health, temperature, voltage, storage, RAM, CPU load, network speed, uptime
+- **Health Score** â€” Composite device health score based on multiple factors
+- **Top Apps** â€” Live list of apps by CPU and RAM usage
+- **Battery Lab** â€” Cycle count, design capacity, current capacity, health %, age
+- **Thermal Zones** â€” CPU, GPU, battery, skin temperature sensors
+- **Storage Breakdown** â€” Per-category breakdown of device storage
+- **Sensors Panel** â€” All hardware sensors with live values
+- **Device Info** â€” 60+ fields: brand, model, codename, Android version, SDK, security patch, CPU, GPU, RAM, storage, resolution, density, refresh rate, WiFi, Bluetooth, SIM, baseband, kernel, bootloader, root, SELinux, verified boot
 
-### 📁 File & App Management
+### ðŸ“ File & App Management
 
-- **File Manager** — Browse, download, upload, rename, delete, create folders, multi-select
+- **File Manager** â€” Browse, download, upload, rename, delete, create folders, multi-select
 - **Copy / Cut / Paste** on device
-- **APK Installer** — Single `.apk` + split `.apks` (auto-detect via `install-multiple`)
-- **Apps Manager** — List installed apps, get APK info, uninstall
-- **APK Backup** — Backup APKs from device to PC
-- **Split APK Tools** — Extract, analyze, re-sign split APKs
-- **Backup & Restore** — Backup / restore apps and data
-- **Media Gallery** — Browse photos, videos, audio
-- **Contacts & SMS** — Read and backup contacts and messages
+- **APK Installer** â€” Single `.apk` + split `.apks` (auto-detect via `install-multiple`)
+- **Apps Manager** â€” List installed apps, get APK info, uninstall
+- **APK Backup** â€” Backup APKs from device to PC
+- **Split APK Tools** â€” Extract, analyze, re-sign split APKs
+- **Backup & Restore** â€” Backup / restore apps and data
+- **Media Gallery** â€” Browse photos, videos, audio
+- **Contacts & SMS** â€” Read and backup contacts and messages
 
-### 🔥 Flash & Bootloader
+### ðŸ”¥ Flash & Bootloader
 
-- **Flash Tools** — Flash boot, recovery, system, vendor partitions
-- **Bootloader Tools** — Unlock/lock, getvar info, OEM commands
-- **Recovery Manager** — Reboot to recovery, sideload, ADB in recovery
-- **Partition Tools** — List all partitions, sizes, types, backup individual partitions
-- **Reboot Options** — Normal, Recovery, Bootloader, Fastbootd, EDL, Shutdown, SystemUI restart
+- **Flash Tools** â€” Flash boot, recovery, system, vendor partitions
+- **Bootloader Tools** â€” Unlock/lock, getvar info, OEM commands
+- **Recovery Manager** â€” Reboot to recovery, sideload, ADB in recovery
+- **Partition Tools** â€” List all partitions, sizes, types, backup individual partitions
+- **Reboot Options** â€” Normal, Recovery, Bootloader, Fastbootd, EDL, Shutdown, SystemUI restart
 
-### 🛠 Advanced
+### ðŸ›  Advanced
 
-- **ADB Console** — Interactive `adb shell` with output capture
-- **Fastboot Console** — Interactive `fastboot` command runner
-- **Logcat Viewer** — Real-time device logs with filter
-- **Process Manager** — Running processes with CPU, RAM, PID
-- **Network Tools** — WiFi, mobile network info, signal strength
-- **Script Runner** — Run ADB/Shell scripts
-- **Task Scheduler** — Schedule automated ADB tasks
+- **ADB Console** â€” Interactive `adb shell` with output capture
+- **Fastboot Console** â€” Interactive `fastboot` command runner
+- **Logcat Viewer** â€” Real-time device logs with filter
+- **Process Manager** â€” Running processes with CPU, RAM, PID
+- **Network Tools** â€” WiFi, mobile network info, signal strength
+- **Script Runner** â€” Run ADB/Shell scripts
+- **Task Scheduler** â€” Schedule automated ADB tasks
 
-### 🛡 Security & Privacy
+### ðŸ›¡ Security & Privacy
 
-- **Security Center** — SELinux status, root detection, verified boot state
-- **Permissions Manager** — View app permissions
-- **Privacy Tools** — Privacy audit utilities
-- **Wireless ADB** — Pair over Wi-Fi without USB (Android 11+)
+- **Security Center** â€” SELinux status, root detection, verified boot state
+- **Permissions Manager** â€” View app permissions
+- **Privacy Tools** â€” Privacy audit utilities
+- **Wireless ADB** â€” Pair over Wi-Fi without USB (Android 11+)
 
-### 🎥 Media
+### ðŸŽ¥ Media
 
-- **Screen Mirror** — Powered by bundled **scrcpy v5.0**
-- **Screenshot** — One-click device screenshot
-- **Screen Record** — Record device screen to MP4
+- **Screen Mirror** â€” Powered by bundled **scrcpy v5.0**
+- **Screenshot** â€” One-click device screenshot
+- **Screen Record** â€” Record device screen to MP4
 
-### 🎨 UI / UX
+### ðŸŽ¨ UI / UX
 
-- **Bilingual** — English + Persian with full RTL support
-- **Dark & Light themes** — Auto-detect from Windows, manual toggle
-- **Smooth animations** — 60 FPS transitions
-- **DPI aware** — Crisp on 100%, 125%, 150%, 200% scaling
-- **Device state gating** — Features auto-lock when mode incompatible
-- **Hot-plug** — Automatically detects device connect/disconnect
-- **Activity Log** — Persistent event history (last 500 actions)
+- **Bilingual** â€” English + Persian with full RTL support
+- **Dark & Light themes** â€” Auto-detect from Windows, manual toggle
+- **Smooth animations** â€” 60 FPS transitions
+- **DPI aware** â€” Crisp on 100%, 125%, 150%, 200% scaling
+- **Device state gating** â€” Features auto-lock when mode incompatible
+- **Hot-plug** â€” Automatically detects device connect/disconnect
+- **Activity Log** â€” Persistent event history (last 500 actions)
 
-### ⚡ Performance
+### âš¡ Performance
 
-- **Self-contained** — No .NET runtime needed
-- **Single-file build** — One `.exe` to run
-- **Offline** — Works fully without internet
-- **Fast startup** — Splash → main window in under 2 seconds
+- **Self-contained** â€” No .NET runtime needed
+- **Single-file build** â€” One `.exe` to run
+- **Offline** â€” Works fully without internet
+- **Fast startup** â€” Splash â†’ main window in under 2 seconds
 
 ---
 
@@ -183,27 +202,27 @@ Get the latest version from the [**Releases page**](https://github.com/DeZ4p/DeZ
 
 | File | Description | Size |
 |------|-------------|------|
-| `DeZ4pAndroidManager-Setup-x64-1.0.0.exe` | **Installer** — recommended | ~95 MB |
-| `DeZ4pAndroidManager-Portable-x64-1.0.0.zip` | **Portable** — no install | ~103 MB |
+| `DeZ4pAndroidManager-Setup-x64-1.0.0.exe` | **Installer** â€” recommended | ~95 MB |
+| `DeZ4pAndroidManager-Portable-x64-1.0.0.zip` | **Portable** â€” no install | ~103 MB |
 
-**Why so big?** The app is fully self-contained — it includes the .NET 8 runtime (~70 MB) plus bundled `adb`, `fastboot`, and `scrcpy`. **No additional downloads needed.**
+**Why so big?** The app is fully self-contained â€” it includes the .NET 8 runtime (~70 MB) plus bundled `adb`, `fastboot`, and `scrcpy`. **No additional downloads needed.**
 
 ---
 
 ## First Use
 
-### Step 1 — Enable USB Debugging on your Android device
+### Step 1 â€” Enable USB Debugging on your Android device
 
-1. Open **Settings** → **About Phone**
+1. Open **Settings** â†’ **About Phone**
 2. Tap **Build Number** 7 times (a toast will say "You are now a developer")
-3. Go back → **Developer Options** → enable **USB Debugging**
+3. Go back â†’ **Developer Options** â†’ enable **USB Debugging**
 
-### Step 2 — Connect your device
+### Step 2 â€” Connect your device
 
 1. Plug your Android device into your PC via USB
-2. On the device, a dialog appears: **Allow USB Debugging?** — tap **Allow** (check "Always allow" if you want)
+2. On the device, a dialog appears: **Allow USB Debugging?** â€” tap **Allow** (check "Always allow" if you want)
 
-### Step 3 — Launch DeZ4p Android Manager
+### Step 3 â€” Launch DeZ4p Android Manager
 
 1. Run `DeZ4pAndroidManager.exe`
 2. The Dashboard opens automatically once your device is detected
@@ -216,12 +235,12 @@ Get the latest version from the [**Releases page**](https://github.com/DeZ4p/DeZ
 | Component | Minimum | Recommended |
 |-----------|---------|-------------|
 | **OS** | Windows 10 (build 17763 / 1809) | Windows 11 latest |
-| **Also supported** | Server 2019, Server 2022 | — |
+| **Also supported** | Server 2019, Server 2022 | â€” |
 | **CPU** | x64 (AMD64) | Any modern x64 |
 | **RAM** | 4 GB | 8 GB |
 | **Disk** | 250 MB free | 500 MB free |
-| **.NET** | *Not required* (self-contained) | — |
-| **Android device** | Android 7 (API 24) | Android 13–16 |
+| **.NET** | *Not required* (self-contained) | â€” |
+| **Android device** | Android 7 (API 24) | Android 13â€“16 |
 | **ADB version** | 1.0.36 | 1.0.41+ |
 
 ---
@@ -232,12 +251,12 @@ This app has been tested on real hardware across multiple OEMs:
 
 | Device | OEM | Android | Result |
 |--------|-----|---------|--------|
-| **Poco X6 Pro** | Xiaomi | HyperOS (Android 14) | ✅ Full |
-| **Poco C71** | Xiaomi | MIUI (Android 13) | ✅ Full |
-| **Huawei P Smart 2019** | Huawei | EMUI 9 (Android 9) | ✅ Full |
-| **Samsung Galaxy J7 Prime 2** | Samsung | One UI (Android 9) | ✅ Full |
+| **Poco X6 Pro** | Xiaomi | HyperOS (Android 14) | âœ… Full |
+| **Poco C71** | Xiaomi | MIUI (Android 13) | âœ… Full |
+| **Huawei P Smart 2019** | Huawei | EMUI 9 (Android 9) | âœ… Full |
+| **Samsung Galaxy J7 Prime 2** | Samsung | One UI (Android 9) | âœ… Full |
 
-**Compatibility target:** Android 7 → Android 16 on all major OEMs (Pixel, Samsung, Xiaomi, OnePlus, Oppo, Vivo, Huawei, Asus, Sony, Nothing, Motorola, Nokia, TCL, Tecno, Infinix).
+**Compatibility target:** Android 7 â†’ Android 16 on all major OEMs (Pixel, Samsung, Xiaomi, OnePlus, Oppo, Vivo, Huawei, Asus, Sony, Nothing, Motorola, Nokia, TCL, Tecno, Infinix).
 
 ---
 
@@ -281,32 +300,32 @@ cd installer
 
 ```
 DeZ4pAndroidManager/
-├── src/DeZ4pAndroidManager/
-│   ├── Controls/         Sparkline chart control
-│   ├── Converters/       XAML value converters
-│   ├── Localization/     Strings.en.xaml + Strings.fa.xaml
-│   ├── Models/           35+ data models
-│   ├── Services/         42 service classes (ADB, Fastboot, Analytics, ...)
-│   ├── Themes/           DarkTheme.xaml + LightTheme.xaml
-│   ├── ViewModels/       37 view models (MVVM)
-│   ├── Views/            38 XAML views
-│   ├── tools/
-│   │   ├── platform-tools/    adb.exe + fastboot.exe
-│   │   └── scrcpy/            scrcpy v5.0 (screen mirror)
-│   ├── App.xaml
-│   ├── MainWindow.xaml
-│   └── app.manifest
-├── installer/
-│   ├── DeZ4pAndroidManager.iss
-│   ├── installer-readme.txt
-│   └── build-installer.ps1
-├── .github/workflows/
-│   ├── build.yml
-│   ├── release.yml
-│   └── codeql.yml
-├── docs/screenshots/
-├── LICENSE
-└── README.md
+â”œâ”€â”€ src/DeZ4pAndroidManager/
+â”‚   â”œâ”€â”€ Controls/         Sparkline chart control
+â”‚   â”œâ”€â”€ Converters/       XAML value converters
+â”‚   â”œâ”€â”€ Localization/     Strings.en.xaml + Strings.fa.xaml
+â”‚   â”œâ”€â”€ Models/           35+ data models
+â”‚   â”œâ”€â”€ Services/         42 service classes (ADB, Fastboot, Analytics, ...)
+â”‚   â”œâ”€â”€ Themes/           DarkTheme.xaml + LightTheme.xaml
+â”‚   â”œâ”€â”€ ViewModels/       37 view models (MVVM)
+â”‚   â”œâ”€â”€ Views/            38 XAML views
+â”‚   â”œâ”€â”€ tools/
+â”‚   â”‚   â”œâ”€â”€ platform-tools/    adb.exe + fastboot.exe
+â”‚   â”‚   â””â”€â”€ scrcpy/            scrcpy v5.0 (screen mirror)
+â”‚   â”œâ”€â”€ App.xaml
+â”‚   â”œâ”€â”€ MainWindow.xaml
+â”‚   â””â”€â”€ app.manifest
+â”œâ”€â”€ installer/
+â”‚   â”œâ”€â”€ DeZ4pAndroidManager.iss
+â”‚   â”œâ”€â”€ installer-readme.txt
+â”‚   â””â”€â”€ build-installer.ps1
+â”œâ”€â”€ .github/workflows/
+â”‚   â”œâ”€â”€ build.yml
+â”‚   â”œâ”€â”€ release.yml
+â”‚   â””â”€â”€ codeql.yml
+â”œâ”€â”€ docs/screenshots/
+â”œâ”€â”€ LICENSE
+â””â”€â”€ README.md
 ```
 
 ---
@@ -331,16 +350,16 @@ DeZ4pAndroidManager/
 
 Found a bug? Please open an issue:
 
-**[→ Open a Bug Report](https://github.com/DeZ4p/DeZ4pAndroidManager/issues/new?template=bug_report.yml)**
+**[â†’ Open a Bug Report](https://github.com/DeZ4p/DeZ4pAndroidManager/issues/new?template=bug_report.yml)**
 
 Please include:
 
-- **Windows version** — open `winver`
-- **App version** — from the sidebar
+- **Windows version** â€” open `winver`
+- **App version** â€” from the sidebar
 - **Device model + Android version**
 - **Steps to reproduce**
 - **Expected vs actual behavior**
-- **Logs** — from `%LOCALAPPDATA%\DeZ4pAndroidManager\activity.json`
+- **Logs** â€” from `%LOCALAPPDATA%\DeZ4pAndroidManager\activity.json`
 - **Screenshots** if UI-related
 
 ### Reporting Security Issues
@@ -352,7 +371,7 @@ Report privately: **[Security Advisory](https://github.com/DeZ4p/DeZ4pAndroidMan
 
 ## License
 
-This project is licensed under the **MIT License** — see [LICENSE](LICENSE) for details.
+This project is licensed under the **MIT License** â€” see [LICENSE](LICENSE) for details.
 
 You are free to use, modify, and distribute this software, including for commercial purposes.
 
