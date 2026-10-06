@@ -123,7 +123,7 @@ And much more – all **bilingual (English + Persian)** with **full RTL support*
 
 ## Features
 
-### ðŸ“Š Monitoring & Info
+### 📊 Monitoring & Info
 
 - **Live Dashboard** – Real-time battery level, health, temperature, voltage, storage, RAM, CPU load, network speed, uptime
 - **Health Score** – Composite device health score based on multiple factors
@@ -134,7 +134,7 @@ And much more – all **bilingual (English + Persian)** with **full RTL support*
 - **Sensors Panel** – All hardware sensors with live values
 - **Device Info** – 60+ fields: brand, model, codename, Android version, SDK, security patch, CPU, GPU, RAM, storage, resolution, density, refresh rate, WiFi, Bluetooth, SIM, baseband, kernel, bootloader, root, SELinux, verified boot
 
-### ðŸ“ File & App Management
+### 📁 File & App Management
 
 - **File Manager** – Browse, download, upload, rename, delete, create folders, multi-select
 - **Copy / Cut / Paste** on device
@@ -146,7 +146,7 @@ And much more – all **bilingual (English + Persian)** with **full RTL support*
 - **Media Gallery** – Browse photos, videos, audio
 - **Contacts & SMS** – Read and backup contacts and messages
 
-### ðŸ”¥ Flash & Bootloader
+### 🔥 Flash & Bootloader
 
 - **Flash Tools** – Flash boot, recovery, system, vendor partitions
 - **Bootloader Tools** – Unlock/lock, getvar info, OEM commands
@@ -154,7 +154,7 @@ And much more – all **bilingual (English + Persian)** with **full RTL support*
 - **Partition Tools** – List all partitions, sizes, types, backup individual partitions
 - **Reboot Options** – Normal, Recovery, Bootloader, Fastbootd, EDL, Shutdown, SystemUI restart
 
-### ðŸ›  Advanced
+### 🛠 Advanced
 
 - **ADB Console** – Interactive `adb shell` with output capture
 - **Fastboot Console** – Interactive `fastboot` command runner
@@ -164,20 +164,20 @@ And much more – all **bilingual (English + Persian)** with **full RTL support*
 - **Script Runner** – Run ADB/Shell scripts
 - **Task Scheduler** – Schedule automated ADB tasks
 
-### ðŸ›¡ Security & Privacy
+### 🛡 Security & Privacy
 
 - **Security Center** – SELinux status, root detection, verified boot state
 - **Permissions Manager** – View app permissions
 - **Privacy Tools** – Privacy audit utilities
 - **Wireless ADB** – Pair over Wi-Fi without USB (Android 11+)
 
-### ðŸŽ¥ Media
+### 🎥 Media
 
 - **Screen Mirror** – Powered by bundled **scrcpy v5.0**
 - **Screenshot** – One-click device screenshot
 - **Screen Record** – Record device screen to MP4
 
-### ðŸŽ¨ UI / UX
+### 🎨 UI / UX
 
 - **Bilingual** – English + Persian with full RTL support
 - **Dark & Light themes** – Auto-detect from Windows, manual toggle
@@ -187,12 +187,12 @@ And much more – all **bilingual (English + Persian)** with **full RTL support*
 - **Hot-plug** – Automatically detects device connect/disconnect
 - **Activity Log** – Persistent event history (last 500 actions)
 
-### âš¡ Performance
+### ⚡ Performance
 
 - **Self-contained** – No .NET runtime needed
 - **Single-file build** – One `.exe` to run
 - **Offline** – Works fully without internet
-- **Fast startup** – Splash â†’ main window in under 2 seconds
+- **Fast startup** – Splash → main window in under 2 seconds
 
 ---
 
@@ -213,9 +213,9 @@ Get the latest version from the [**Releases page**](https://github.com/DeZ4p/DeZ
 
 ### Step 1 – Enable USB Debugging on your Android device
 
-1. Open **Settings** â†’ **About Phone**
+1. Open **Settings** → **About Phone**
 2. Tap **Build Number** 7 times (a toast will say "You are now a developer")
-3. Go back â†’ **Developer Options** â†’ enable **USB Debugging**
+3. Go back → **Developer Options** → enable **USB Debugging**
 
 ### Step 2 – Connect your device
 
@@ -251,12 +251,12 @@ This app has been tested on real hardware across multiple OEMs:
 
 | Device | OEM | Android | Result |
 |--------|-----|---------|--------|
-| **Poco X6 Pro** | Xiaomi | HyperOS (Android 14) | âœ… Full |
-| **Poco C71** | Xiaomi | MIUI (Android 13) | âœ… Full |
-| **Huawei P Smart 2019** | Huawei | EMUI 9 (Android 9) | âœ… Full |
-| **Samsung Galaxy J7 Prime 2** | Samsung | One UI (Android 9) | âœ… Full |
+| **Poco X6 Pro** | Xiaomi | HyperOS (Android 14) | ✅ Full |
+| **Poco C71** | Xiaomi | MIUI (Android 13) | ✅ Full |
+| **Huawei P Smart 2019** | Huawei | EMUI 9 (Android 9) | ✅ Full |
+| **Samsung Galaxy J7 Prime 2** | Samsung | One UI (Android 9) | ✅ Full |
 
-**Compatibility target:** Android 7 â†’ Android 16 on all major OEMs (Pixel, Samsung, Xiaomi, OnePlus, Oppo, Vivo, Huawei, Asus, Sony, Nothing, Motorola, Nokia, TCL, Tecno, Infinix).
+**Compatibility target:** Android 7 → Android 16 on all major OEMs (Pixel, Samsung, Xiaomi, OnePlus, Oppo, Vivo, Huawei, Asus, Sony, Nothing, Motorola, Nokia, TCL, Tecno, Infinix).
 
 ---
 
@@ -300,32 +300,32 @@ cd installer
 
 ```
 DeZ4pAndroidManager/
-â”œâ”€â”€ src/DeZ4pAndroidManager/
-â”‚   â”œâ”€â”€ Controls/         Sparkline chart control
-â”‚   â”œâ”€â”€ Converters/       XAML value converters
-â”‚   â”œâ”€â”€ Localization/     Strings.en.xaml + Strings.fa.xaml
-â”‚   â”œâ”€â”€ Models/           35+ data models
-â”‚   â”œâ”€â”€ Services/         42 service classes (ADB, Fastboot, Analytics, ...)
-â”‚   â”œâ”€â”€ Themes/           DarkTheme.xaml + LightTheme.xaml
-â”‚   â”œâ”€â”€ ViewModels/       37 view models (MVVM)
-â”‚   â”œâ”€â”€ Views/            38 XAML views
-â”‚   â”œâ”€â”€ tools/
-â”‚   â”‚   â”œâ”€â”€ platform-tools/    adb.exe + fastboot.exe
-â”‚   â”‚   â””â”€â”€ scrcpy/            scrcpy v5.0 (screen mirror)
-â”‚   â”œâ”€â”€ App.xaml
-â”‚   â”œâ”€â”€ MainWindow.xaml
-â”‚   â””â”€â”€ app.manifest
-â”œâ”€â”€ installer/
-â”‚   â”œâ”€â”€ DeZ4pAndroidManager.iss
-â”‚   â”œâ”€â”€ installer-readme.txt
-â”‚   â””â”€â”€ build-installer.ps1
-â”œâ”€â”€ .github/workflows/
-â”‚   â”œâ”€â”€ build.yml
-â”‚   â”œâ”€â”€ release.yml
-â”‚   â””â”€â”€ codeql.yml
-â”œâ”€â”€ docs/screenshots/
-â”œâ”€â”€ LICENSE
-â””â”€â”€ README.md
+├── src/DeZ4pAndroidManager/
+│   ├── Controls/         Sparkline chart control
+│   ├── Converters/       XAML value converters
+│   ├── Localization/     Strings.en.xaml + Strings.fa.xaml
+│   ├── Models/           35+ data models
+│   ├── Services/         42 service classes (ADB, Fastboot, Analytics, ...)
+│   ├── Themes/           DarkTheme.xaml + LightTheme.xaml
+│   ├── ViewModels/       37 view models (MVVM)
+│   ├── Views/            38 XAML views
+│   ├── tools/
+│   │   ├── platform-tools/    adb.exe + fastboot.exe
+│   │   └── scrcpy/            scrcpy v5.0 (screen mirror)
+│   ├── App.xaml
+│   ├── MainWindow.xaml
+│   └── app.manifest
+├── installer/
+│   ├── DeZ4pAndroidManager.iss
+│   ├── installer-readme.txt
+│   └── build-installer.ps1
+├── .github/workflows/
+│   ├── build.yml
+│   ├── release.yml
+│   └── codeql.yml
+├── docs/screenshots/
+├── LICENSE
+└── README.md
 ```
 
 ---
@@ -350,7 +350,7 @@ DeZ4pAndroidManager/
 
 Found a bug? Please open an issue:
 
-**[â†’ Open a Bug Report](https://github.com/DeZ4p/DeZ4pAndroidManager/issues/new?template=bug_report.yml)**
+**[→ Open a Bug Report](https://github.com/DeZ4p/DeZ4pAndroidManager/issues/new?template=bug_report.yml)**
 
 Please include:
 
