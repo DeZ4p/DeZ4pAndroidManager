@@ -54,6 +54,13 @@ jobs:
       - name: Restore
         run: dotnet restore DeZ4pAndroidManager.sln
 
+      - name: Download bundled tools (adb, fastboot, scrcpy)
+        shell: pwsh
+        run: |
+          cd src/DeZ4pAndroidManager/tools
+          .\download-tools.ps1
+          cd ../../..
+
       - name: Publish (win-x64)
         shell: pwsh
         run: |

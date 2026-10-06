@@ -58,6 +58,12 @@ jobs:
       - name: Build (Release)
         run: dotnet build DeZ4pAndroidManager.sln -c Release --no-restore
 
+      - name: Download bundled tools (adb, fastboot, scrcpy)
+        shell: pwsh
+        run: |
+          cd src/DeZ4pAndroidManager/tools
+          .\download-tools.ps1
+
       - name: Publish (Release x64)
         run: |
           dotnet publish src/DeZ4pAndroidManager/DeZ4pAndroidManager.csproj `
