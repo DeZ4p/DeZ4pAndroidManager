@@ -1,10 +1,3 @@
-<!-- (c) DeZ4p | t.me/DeZ4p | All Rights Reserved -->
-
-**Language / زبان:** &nbsp;
-[English](README.md) &nbsp;|&nbsp; [فارسی](README.fa.md)
-
----
-
 <div align="center">
 
 # DeZ4p Android Manager
