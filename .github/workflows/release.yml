@@ -76,13 +76,13 @@ jobs:
             -p:AssemblyVersion=${{ steps.version.outputs.version }}.0 `
             -p:FileVersion=${{ steps.version.outputs.version }}.0 `
             -p:InformationalVersion=${{ steps.version.outputs.version }} `
-            -o artifacts/win-x64
+            -o artifacts/portable-win-x64
 
       - name: Copy tools (adb, fastboot, scrcpy)
         shell: pwsh
         run: |
           $srcTools = "src/DeZ4pAndroidManager/tools"
-          $dstTools = "artifacts/win-x64/tools"
+          $dstTools = "artifacts/portable-win-x64/tools"
           if (Test-Path $srcTools) {
             robocopy $srcTools $dstTools /E /NFL /NDL /NJH /NJS /NC /NS | Out-Null
             Write-Host "[OK] robocopy exit: $LASTEXITCODE"
@@ -96,7 +96,7 @@ jobs:
         run: |
           $ver = "${{ steps.version.outputs.version }}"
           $zip = "artifacts/DeZ4pAndroidManager-Portable-x64-$ver.zip"
-          Compress-Archive -Path "artifacts/win-x64/*" -DestinationPath $zip -CompressionLevel Optimal
+          Compress-Archive -Path "artifacts/portable-win-x64/*" -DestinationPath $zip -CompressionLevel Optimal
           Write-Host "[OK] Portable ZIP created: $zip"
 
       - name: Install Inno Setup
