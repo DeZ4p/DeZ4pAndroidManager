@@ -26,6 +26,63 @@
 
 ---
 
+## تصاویر برنامه
+
+<div align="center">
+
+### داشبورد
+نمای لحظه‌ای از باتری، رم، فضا، CPU، شبکه و امتیاز سلامت دستگاه.
+
+![Dashboard](docs/screenshots/01-dashboard.png)
+
+### اطلاعات دستگاه
+اطلاعات کامل سخت‌افزار و نرم‌افزار — بیش از ۶۰ فیلد.
+
+![Device Info](docs/screenshots/02-device-info.png)
+
+### مدیریت فایل
+مرور، دانلود، آپلود و مدیریت فایل‌های دستگاه.
+
+![File Manager](docs/screenshots/03-file-manager.png)
+
+### مدیریت برنامه‌ها
+نمایش، اطلاعات، حذف نصب اپ‌ها.
+
+![Apps Manager](docs/screenshots/04-apps-manager.png)
+
+### نصب‌کننده APK
+نصب فایل‌های `.apk` تک‌تکه یا بسته‌های `.apks` چندتکه.
+
+![APK Installer](docs/screenshots/05-apk-installer.png)
+
+### ابزار فلش
+فلش پارتیشن‌های boot، recovery، system و vendor.
+
+![Flash Tools](docs/screenshots/06-flash-tools.png)
+
+### کنسول ADB
+`adb shell` تعاملی با ضبط خروجی.
+
+![ADB Console](docs/screenshots/07-adb-console.png)
+
+### نمایشگر Logcat
+لاگ‌های زنده با فیلتر.
+
+![Logcat Viewer](docs/screenshots/08-logcat-viewer.png)
+
+### تنظیمات
+تم، زبان و تنظیمات برنامه.
+
+![Settings](docs/screenshots/09-settings.png)
+
+### آزمایشگاه باتری
+تعداد چرخه، ظرفیت، سلامت، سن.
+
+![Battery Lab](docs/screenshots/10-battery-lab.png)
+
+</div>
+
+---
 ## فهرست مطالب
 
 - [این برنامه چیه؟](#این-برنامه-چیه)
