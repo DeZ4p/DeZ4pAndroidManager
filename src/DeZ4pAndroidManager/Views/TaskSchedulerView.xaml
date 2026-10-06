@@ -1,0 +1,149 @@
+<!-- © DeZ4p | t.me/DeZ4p | All Rights Reserved -->
+<UserControl x:Class="DeZ4pAndroidManager.Views.TaskSchedulerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,0,0,14">
+            <StackPanel>
+                <TextBlock Text="{DynamicResource Tasks.Title}" Style="{StaticResource PageTitle}"/>
+                <TextBlock Text="{DynamicResource Tasks.Subtitle}" Style="{StaticResource PageSubtitle}" Margin="0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <ComboBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
+                          DisplayMemberPath="DisplayName" Width="220" Height="34"/>
+                <Button Command="{Binding RefreshDevicesCommand}" Tag="#4F8CFF"
+                        Style="{StaticResource ActionBarButton}" Padding="10,7" Margin="6,0,0,0">
+                    <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="13" Foreground="#4F8CFF"/>
+                </Button>
+                <Button Command="{Binding StartCommand}" Tag="#34D399"
+                        Style="{StaticResource ActionBarButton}" Padding="12,7" Margin="6,0,0,0">
+                    <TextBlock Text="&#xE768;" FontFamily="Segoe MDL2 Assets" FontSize="13" Foreground="#34D399"/>
+                </Button>
+                <Button Command="{Binding StopCommand}" Tag="#EF4444"
+                        Style="{StaticResource ActionBarButton}" Padding="12,7" Margin="6,0,0,0">
+                    <TextBlock Text="&#xE71A;" FontFamily="Segoe MDL2 Assets" FontSize="13" Foreground="#EF4444"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="1" Style="{StaticResource Card}" Padding="14" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text="{DynamicResource Tasks.Name}" FontSize="10" Margin="0,0,0,4"
+                               Foreground="{DynamicResource MutedForegroundBrush}"/>
+                    <TextBox Text="{Binding NewName}" Height="34" Padding="10,6"
+                             Background="{DynamicResource CardHoverBrush}"
+                             BorderBrush="{DynamicResource BorderBrush}"
+                             Foreground="{DynamicResource ForegroundBrush}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                    <TextBlock Text="{DynamicResource Tasks.Command}" FontSize="10" Margin="0,0,0,4"
+                               Foreground="{DynamicResource MutedForegroundBrush}"/>
+                    <TextBox Text="{Binding NewCommand}" Height="34" Padding="10,6"
+                             FontFamily="Consolas" FontSize="12"
+                             Background="{DynamicResource CardHoverBrush}"
+                             BorderBrush="{DynamicResource BorderBrush}"
+                             Foreground="{DynamicResource ForegroundBrush}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Margin="0,0,10,0">
+                    <TextBlock Text="{DynamicResource Tasks.Interval}" FontSize="10" Margin="0,0,0,4"
+                               Foreground="{DynamicResource MutedForegroundBrush}"/>
+                    <TextBox Text="{Binding NewInterval}" Width="80" Height="34" Padding="10,6"
+                             Background="{DynamicResource CardHoverBrush}"
+                             BorderBrush="{DynamicResource BorderBrush}"
+                             Foreground="{DynamicResource ForegroundBrush}"/>
+                </StackPanel>
+                <Button Grid.Column="3" Command="{Binding AddCommand}" Tag="#34D399"
+                        Style="{StaticResource ActionBarButton}" Padding="14,8" VerticalAlignment="Bottom">
+                    <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="#34D399"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="2" Style="{StaticResource Card}" Padding="0">
+            <ListView ItemsSource="{Binding Tasks}" SelectedItem="{Binding Selected}"
+                      Background="Transparent" BorderThickness="0"
+                      Foreground="{DynamicResource ForegroundBrush}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="" Width="40">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding DataContext.ToggleEnableCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            CommandParameter="{Binding}" Background="Transparent" BorderThickness="0"
+                                            Padding="4" Cursor="Hand">
+                                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="&#xE739;"/>
+                                                    <Setter Property="Foreground" Value="#6B7280"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsEnabled}" Value="True">
+                                                            <Setter Property="Text" Value="&#xE73E;"/>
+                                                            <Setter Property="Foreground" Value="#34D399"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Command" Width="320">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Command}" FontFamily="Consolas" FontSize="11"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Interval" Width="80" DisplayMemberBinding="{Binding IntervalDisplay}"/>
+                        <GridViewColumn Header="Last Run" Width="100" DisplayMemberBinding="{Binding LastRunDisplay}"/>
+                        <GridViewColumn Header="Result" Width="200" DisplayMemberBinding="{Binding LastResult}"/>
+                        <GridViewColumn Width="80">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            CommandParameter="{Binding}" Background="Transparent" BorderThickness="0"
+                                            Padding="4" Cursor="Hand">
+                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="13" Foreground="#EF4444"/>
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <Border Grid.Row="3" Style="{StaticResource Card}" Padding="10,8" Margin="0,10,0,0">
+            <Grid>
+                <TextBlock Text="{Binding StatusMessage}" FontSize="11.5" VerticalAlignment="Center"
+                           Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                <Button Command="{Binding SaveCommand}" Tag="#4F8CFF" HorizontalAlignment="Right"
+                        Style="{StaticResource ActionBarButton}" Padding="10,6">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                   Foreground="#4F8CFF" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Save" FontSize="11" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

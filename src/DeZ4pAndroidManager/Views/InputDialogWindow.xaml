@@ -1,0 +1,58 @@
+<!-- © DeZ4p | t.me/DeZ4p | All Rights Reserved -->
+<Window x:Class="DeZ4pAndroidManager.Views.InputDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Input"
+        Width="480" Height="220"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow"
+        ShowInTaskbar="False"
+        Background="{DynamicResource BackgroundBrush}"
+        Foreground="{DynamicResource ForegroundBrush}">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" x:Name="PromptText"
+                   Text="Enter value:"
+                   FontSize="14" FontWeight="SemiBold"
+                   Margin="0,0,0,14"
+                   Foreground="{DynamicResource ForegroundBrush}"/>
+
+        <Border Grid.Row="1"
+                Background="{DynamicResource CardBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1.5"
+                CornerRadius="8">
+            <TextBox x:Name="InputBox"
+                     Padding="12,10"
+                     FontSize="14"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Foreground="{DynamicResource ForegroundBrush}"
+                     CaretBrush="{DynamicResource ForegroundBrush}"
+                     SelectionBrush="{DynamicResource AccentBrush}"/>
+        </Border>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0"
+                    FlowDirection="LeftToRight">
+            <Button Content="Cancel"
+                    IsCancel="True"
+                    Style="{StaticResource GhostButton}"
+                    Padding="20,9" Margin="0,0,10,0"
+                    MinWidth="100"/>
+            <Button Content="OK"
+                    IsDefault="True"
+                    Click="OnOkClick"
+                    Style="{StaticResource PrimaryButton}"
+                    Padding="20,9"
+                    MinWidth="100"/>
+        </StackPanel>
+    </Grid>
+</Window>

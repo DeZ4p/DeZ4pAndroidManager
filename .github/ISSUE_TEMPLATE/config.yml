@@ -1,0 +1,13 @@
+# (c) DeZ4p | t.me/DeZ4p | All Rights Reserved
+
+blank_issues_enabled: false
+contact_links:
+  - name: "Telegram Support"
+    url: "https://t.me/DeZ4p"
+    about: "Ask questions and get help from the community"
+  - name: "Security Vulnerability"
+    url: "https://github.com/DeZ4p/DeZ4pAndroidManager/security/advisories/new"
+    about: "Report a security issue privately - do NOT open a public issue"
+  - name: "Documentation"
+    url: "https://github.com/DeZ4p/DeZ4pAndroidManager#readme"
+    about: "Read the README first"

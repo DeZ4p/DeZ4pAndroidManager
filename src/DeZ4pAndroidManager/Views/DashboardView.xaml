@@ -1,0 +1,752 @@
+<!-- © DeZ4p | t.me/DeZ4p | All Rights Reserved -->
+<UserControl x:Class="DeZ4pAndroidManager.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:DeZ4pAndroidManager.Converters">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <conv:HexToBrushConverter x:Key="HexToBrush"/>
+
+        <Style x:Key="RowA" TargetType="Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="4,5"/>
+            <Setter Property="CornerRadius" Value="4"/>
+        </Style>
+        <Style x:Key="RowB" TargetType="Border" BasedOn="{StaticResource RowA}">
+            <Setter Property="Background" Value="#0D808080"/>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                  CanContentScroll="False" Padding="0,0,6,0">
+        <Grid Margin="24" MinHeight="1200">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" MinHeight="200"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- ═══ Header ═══ -->
+            <Grid x:Name="PageHeader" Grid.Row="0" Margin="0,0,0,18">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Dashboard.Title}" Style="{StaticResource PageTitle}"/>
+                    <TextBlock Text="{DynamicResource Dashboard.Subtitle}"
+                               Style="{StaticResource PageSubtitle}" Margin="0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top"
+                            FlowDirection="LeftToRight">
+                    <TextBlock Text="{Binding LastUpdated, StringFormat='Updated: {0}'}"
+                               FontSize="11" VerticalAlignment="Center" Margin="0,0,10,0"
+                               FlowDirection="LeftToRight"
+                               Foreground="{DynamicResource MutedForegroundBrush}"/>
+                    <Button Command="{Binding RefreshCommand}"
+                            Style="{StaticResource GhostButton}" FlowDirection="LeftToRight">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                       Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Common.Refresh}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- ═══ Hero ═══ -->
+            <Border x:Name="HeroCard" Grid.Row="1"
+                    CornerRadius="12" Padding="22" Margin="0,0,0,14"
+                    Background="{DynamicResource HeroBackgroundBrush}"
+                    FlowDirection="LeftToRight">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="18" ShadowDepth="0" Opacity="0.25" Color="Black"/>
+                </Border.Effect>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Width="64" Height="64" CornerRadius="16"
+                            Background="#4F8CFF" Margin="0,0,18,0" VerticalAlignment="Center">
+                        <TextBlock Text="&#xE8EA;" FontFamily="Segoe MDL2 Assets"
+                                   FontSize="30" FontWeight="Bold" Foreground="#FFFFFF"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding DeviceTitle}" FontSize="20" FontWeight="Bold"
+                                   Foreground="{DynamicResource HeroForegroundBrush}"/>
+                        <TextBlock Text="{Binding DeviceSubtitle}" FontSize="12" Margin="0,4,0,0"
+                                   Foreground="{DynamicResource HeroSecondaryForegroundBrush}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                            <Border Background="#4F8CFF" CornerRadius="4" Padding="8,3" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Android " FontSize="11" Foreground="White"/>
+                                    <TextBlock Text="{Binding AndroidVersion}" FontSize="11" FontWeight="Bold" Foreground="White"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="#34D399" CornerRadius="4" Padding="8,3" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="ABI " FontSize="11" Foreground="White"/>
+                                    <TextBlock Text="{Binding CpuAbi}" FontSize="11" FontWeight="Bold" Foreground="White"/>
+                                </StackPanel>
+                            </Border>
+                            <Border CornerRadius="4" Padding="8,3" Background="#22D3EE">
+                                <TextBlock Text="{Binding AdbStatusLabel, StringFormat='ADB {0}'}"
+                                           FontSize="11" FontWeight="Bold" Foreground="White"/>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center"
+                                FlowDirection="LeftToRight">
+                        <Grid Width="140" Margin="0,0,16,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/><RowDefinition Height="32"/><RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <TextBlock Text="&#xE83F;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                           Margin="0,0,6,0" Foreground="#34D399" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Dashboard.Battery}" FontSize="11"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource HeroSecondaryForegroundBrush}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,6">
+                                <TextBlock Text="{Binding BatteryDisplay}" FontSize="18" FontWeight="Bold"
+                                           Foreground="{DynamicResource HeroForegroundBrush}"/>
+                                <TextBlock Text="  ·  " FontSize="13" VerticalAlignment="Bottom" Margin="0,0,0,2"
+                                           Foreground="{DynamicResource HeroSecondaryForegroundBrush}"/>
+                                <TextBlock Text="{Binding BatteryHealth}" FontSize="11" VerticalAlignment="Bottom"
+                                           Margin="0,0,0,3" Foreground="{DynamicResource HeroSecondaryForegroundBrush}"/>
+                            </StackPanel>
+                            <ProgressBar Grid.Row="2" Height="5" Value="{Binding BatteryBarValue, Mode=OneWay}" Maximum="100"
+                                         Background="{DynamicResource HeroTrackBrush}" BorderThickness="0" Foreground="#34D399"/>
+                        </Grid>
+
+                        <Grid Width="160" Margin="0,0,16,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/><RowDefinition Height="32"/><RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <TextBlock Text="&#xE7F4;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                           Margin="0,0,6,0" Foreground="#F59E0B" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Dashboard.Storage}" FontSize="11"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource HeroSecondaryForegroundBrush}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,6">
+                                <TextBlock Text="{Binding StorageDisplay}" FontSize="13" FontWeight="Bold"
+                                           Foreground="{DynamicResource HeroForegroundBrush}" VerticalAlignment="Bottom"/>
+                                <TextBlock Text="  ·  " FontSize="13" VerticalAlignment="Bottom" Margin="0,0,0,1"
+                                           Foreground="{DynamicResource HeroSecondaryForegroundBrush}"/>
+                                <TextBlock Text="{Binding StorageDetail}" FontSize="11" VerticalAlignment="Bottom"
+                                           Foreground="{DynamicResource HeroSecondaryForegroundBrush}"/>
+                            </StackPanel>
+                            <ProgressBar Grid.Row="2" Height="5" Value="{Binding StorageBarValue, Mode=OneWay}" Maximum="100"
+                                         Background="{DynamicResource HeroTrackBrush}" BorderThickness="0" Foreground="#F59E0B"/>
+                        </Grid>
+
+                        <Grid Width="150">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/><RowDefinition Height="32"/><RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <TextBlock Text="&#xE9D9;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                           Margin="0,0,6,0" Foreground="#A855F7" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Dashboard.RAM}" FontSize="11"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource HeroSecondaryForegroundBrush}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,6">
+                                <TextBlock Text="{Binding RamDisplay}" FontSize="14" FontWeight="Bold"
+                                           Foreground="{DynamicResource HeroForegroundBrush}"/>
+                                <TextBlock Text="  ·  " FontSize="13" VerticalAlignment="Bottom" Margin="0,0,0,2"
+                                           Foreground="{DynamicResource HeroSecondaryForegroundBrush}"/>
+                                <TextBlock Text="{Binding RamDetail}" FontSize="11" VerticalAlignment="Bottom"
+                                           Margin="0,0,0,3" Foreground="{DynamicResource HeroSecondaryForegroundBrush}"/>
+                            </StackPanel>
+                            <ProgressBar Grid.Row="2" Height="5" Value="{Binding RamBarValue, Mode=OneWay}" Maximum="100"
+                                         Background="{DynamicResource HeroTrackBrush}" BorderThickness="0" Foreground="#A855F7"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ═══ Stats ═══ -->
+            <UniformGrid x:Name="StatsRow" Grid.Row="2" Columns="4" Margin="0,0,0,14">
+                <Border Background="{DynamicResource StatsCardBrush}" BorderBrush="{DynamicResource StatsBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="0,0,6,0" Padding="14">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8EA;" FontFamily="Segoe MDL2 Assets" FontSize="28"
+                                   VerticalAlignment="Center" Margin="0,0,12,0"
+                                   Foreground="{DynamicResource StatsAccentBrush}"/>
+                        <StackPanel>
+                            <TextBlock Text="{Binding DeviceCount}" FontSize="22" FontWeight="Bold"
+                                       FlowDirection="LeftToRight"
+                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                            <TextBlock Text="{DynamicResource Dashboard.DevicesConnected}" FontSize="11"
+                                       Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Background="{DynamicResource StatsCardBrush}" BorderBrush="{DynamicResource StatsBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="6,0,6,0" Padding="14">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE7B8;" FontFamily="Segoe MDL2 Assets" FontSize="28"
+                                   VerticalAlignment="Center" Margin="0,0,12,0" Foreground="#34D399"/>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                <TextBlock Text="{Binding TodayInstalls}" FontSize="18" FontWeight="Bold"
+                                           Foreground="#34D399" Margin="0,0,4,0"/>
+                                <TextBlock Text="{DynamicResource Dashboard.TodaySuffix}" FontSize="11"
+                                           VerticalAlignment="Bottom" Margin="0,0,0,3"
+                                           Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                <TextBlock Text="{Binding TotalInstalls}" FontSize="11"
+                                           Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                                <TextBlock Text=" " FontSize="11"/>
+                                <TextBlock Text="{DynamicResource Dashboard.TotalSuffix}" FontSize="11"
+                                           Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                                <TextBlock Text=" " FontSize="11"/>
+                                <TextBlock Text="{DynamicResource Dashboard.InstallsWord}" FontSize="11"
+                                           Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Background="{DynamicResource StatsCardBrush}" BorderBrush="{DynamicResource StatsBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="6,0,6,0" Padding="14">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8B7;" FontFamily="Segoe MDL2 Assets" FontSize="28"
+                                   VerticalAlignment="Center" Margin="0,0,12,0" Foreground="#A855F7"/>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                <TextBlock Text="{Binding TodayBackups}" FontSize="18" FontWeight="Bold"
+                                           Foreground="#A855F7" Margin="0,0,4,0"/>
+                                <TextBlock Text="{DynamicResource Dashboard.TodaySuffix}" FontSize="11"
+                                           VerticalAlignment="Bottom" Margin="0,0,0,3"
+                                           Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                <TextBlock Text="{Binding TotalBackups}" FontSize="11"
+                                           Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                                <TextBlock Text=" " FontSize="11"/>
+                                <TextBlock Text="{DynamicResource Dashboard.TotalSuffix}" FontSize="11"
+                                           Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                                <TextBlock Text=" " FontSize="11"/>
+                                <TextBlock Text="{DynamicResource Dashboard.BackupsWord}" FontSize="11"
+                                           Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Background="{DynamicResource StatsCardBrush}" BorderBrush="{DynamicResource StatsBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="6,0,0,0" Padding="14">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE945;" FontFamily="Segoe MDL2 Assets" FontSize="28"
+                                   VerticalAlignment="Center" Margin="0,0,12,0" Foreground="#22D3EE"/>
+                        <StackPanel>
+                            <TextBlock Text="{Binding AdbVersion}" FontSize="13" FontWeight="Bold"
+                                       FlowDirection="LeftToRight" Margin="0,4,0,0"
+                                       TextTrimming="CharacterEllipsis"
+                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                            <TextBlock Text="{DynamicResource Dashboard.ADB}" FontSize="11"
+                                       Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- ═══ Details Row ═══ -->
+            <UniformGrid x:Name="DetailsRow" Grid.Row="3" Columns="4" Margin="0,0,0,14">
+                <Border Background="{DynamicResource BatteryCardBrush}" BorderBrush="{DynamicResource BatteryBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="0,0,6,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="4"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="{DynamicResource BatteryAccentBrush}" CornerRadius="10,0,0,10"/>
+                        <StackPanel Grid.Column="1" Margin="14,12">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="&#xE83F;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                                           Margin="0,0,8,0" Foreground="#34D399" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Dashboard.BatteryDetails}" FontSize="12" FontWeight="SemiBold"
+                                           VerticalAlignment="Center" Foreground="{DynamicResource BatteryAccentBrush}"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Level}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding BatteryLevelText}" Style="{StaticResource RowValue}" Foreground="#34D399"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Health}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding BatteryHealth}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Temperature}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding BatteryTempText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Voltage}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding BatteryVoltageText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Background="{DynamicResource StorageCardBrush}" BorderBrush="{DynamicResource StorageBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="6,0,6,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="4"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="{DynamicResource StorageAccentBrush}" CornerRadius="10,0,0,10"/>
+                        <StackPanel Grid.Column="1" Margin="14,12">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="&#xE7F4;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                                           Margin="0,0,8,0" Foreground="#F59E0B" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Dashboard.StorageDetails}" FontSize="12" FontWeight="SemiBold"
+                                           VerticalAlignment="Center" Foreground="{DynamicResource StorageAccentBrush}"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Total}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding StorageTotalText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Used}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding StorageUsedText}" Style="{StaticResource RowValue}" Foreground="{DynamicResource StorageAccentBrush}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Free}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding StorageFreeText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Usage}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding StoragePercentText}" Style="{StaticResource RowValue}" Foreground="{DynamicResource StorageAccentBrush}"/>
+                            </Grid></Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Background="{DynamicResource MemoryCardBrush}" BorderBrush="{DynamicResource MemoryBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="6,0,6,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="4"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="{DynamicResource MemoryAccentBrush}" CornerRadius="10,0,0,10"/>
+                        <StackPanel Grid.Column="1" Margin="14,12">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="&#xE9D9;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                                           Margin="0,0,8,0" Foreground="#A855F7" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Dashboard.MemoryDetails}" FontSize="12" FontWeight="SemiBold"
+                                           VerticalAlignment="Center" Foreground="{DynamicResource MemoryAccentBrush}"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.RAMTotal}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding RamTotalText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.RAMUsed}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding RamUsedText}" Style="{StaticResource RowValue}" Foreground="{DynamicResource MemoryAccentBrush}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.RAMFree}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding RamFreeText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Swap}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding SwapTotalText}" Style="{StaticResource RowValue}" Foreground="{DynamicResource MemoryAccentBrush}"/>
+                            </Grid></Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Background="{DynamicResource SystemCardBrush}" BorderBrush="{DynamicResource SystemBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="6,0,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="4"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="{DynamicResource SystemAccentBrush}" CornerRadius="10,0,0,10"/>
+                        <StackPanel Grid.Column="1" Margin="14,12">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                                           Margin="0,0,8,0" Foreground="#4F8CFF" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Dashboard.SystemDetails}" FontSize="12" FontWeight="SemiBold"
+                                           VerticalAlignment="Center" Foreground="{DynamicResource SystemAccentBrush}"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Android}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding AndroidVersion}" Style="{StaticResource RowValue}" Foreground="{DynamicResource SystemAccentBrush}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Kernel}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding KernelShort}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Uptime}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding UptimeText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.SecurityPatch}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding SecurityPatchText}" Style="{StaticResource RowValue}" Foreground="{DynamicResource SystemAccentBrush}"/>
+                            </Grid></Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </UniformGrid>
+
+            <!-- ═══ Advanced Row ═══ -->
+            <UniformGrid x:Name="AdvancedRow" Grid.Row="4" Columns="4" Margin="0,0,0,14">
+                <Border Background="{DynamicResource SecurityCardBrush}" BorderBrush="{DynamicResource SecurityBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="0,0,6,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="4"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="{DynamicResource SecurityAccentBrush}" CornerRadius="10,0,0,10"/>
+                        <StackPanel Grid.Column="1" Margin="14,12">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="&#xE72E;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                                           Margin="0,0,8,0" Foreground="#EF4444" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Dashboard.Security}" FontSize="12" FontWeight="SemiBold"
+                                           VerticalAlignment="Center" Foreground="{DynamicResource SecurityAccentBrush}"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Bootloader}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding BootloaderText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Root}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding RootStatusText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.SELinux}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding SelinuxText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.VerifiedBoot}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding VerifiedBootText}" Style="{StaticResource RowValue}" Foreground="{DynamicResource SecurityAccentBrush}"/>
+                            </Grid></Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Background="{DynamicResource NetworkCardBrush}" BorderBrush="{DynamicResource NetworkBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="6,0,6,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="4"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="{DynamicResource NetworkAccentBrush}" CornerRadius="10,0,0,10"/>
+                        <StackPanel Grid.Column="1" Margin="14,12">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="&#xE701;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                                           Margin="0,0,8,0" Foreground="#22D3EE" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Dashboard.Network}" FontSize="12" FontWeight="SemiBold"
+                                           VerticalAlignment="Center" Foreground="{DynamicResource NetworkAccentBrush}"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.WiFiSSID}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding WifiSsidText}" Style="{StaticResource RowValue}" MaxWidth="120" TextTrimming="CharacterEllipsis"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.WiFiIP}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding WifiIpText}" Style="{StaticResource RowValue}" Foreground="{DynamicResource NetworkAccentBrush}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Signal}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding WifiRssiText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Connection}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding ConnectionTypeText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Background="{DynamicResource DisplayCardBrush}" BorderBrush="{DynamicResource DisplayBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="6,0,6,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="4"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="{DynamicResource DisplayAccentBrush}" CornerRadius="10,0,0,10"/>
+                        <StackPanel Grid.Column="1" Margin="14,12">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="&#xE7F4;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                                           Margin="0,0,8,0" Foreground="#818CF8" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Dashboard.Display}" FontSize="12" FontWeight="SemiBold"
+                                           VerticalAlignment="Center" Foreground="{DynamicResource DisplayAccentBrush}"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Resolution}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding ScreenResolutionText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Density}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding ScreenDensityText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Size}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding ScreenSizeText}" Style="{StaticResource RowValue}" Foreground="{DynamicResource DisplayAccentBrush}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.ABI}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding CpuAbiText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Background="{DynamicResource CpuCardBrush}" BorderBrush="{DynamicResource CpuBorderBrush}"
+                        BorderThickness="1" CornerRadius="10" Margin="6,0,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="4"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="{DynamicResource CpuAccentBrush}" CornerRadius="10,0,0,10"/>
+                        <StackPanel Grid.Column="1" Margin="14,12">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="&#xE945;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                                           Margin="0,0,8,0" Foreground="#FBBF24" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Dashboard.CPUChipset}" FontSize="12" FontWeight="SemiBold"
+                                           VerticalAlignment="Center" Foreground="{DynamicResource CpuAccentBrush}"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Model}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding CpuModelText}" Style="{StaticResource RowValue}" MaxWidth="130" TextTrimming="CharacterEllipsis"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Cores}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding CpuCoresText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowA}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Load}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding CpuLoadText}" Style="{StaticResource RowValue}" Foreground="{DynamicResource CpuAccentBrush}"/>
+                            </Grid></Border>
+                            <Border Style="{StaticResource RowB}"><Grid>
+                                <TextBlock Text="{DynamicResource Dashboard.Architecture}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding CpuAbiText}" Style="{StaticResource RowValue}"/>
+                            </Grid></Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </UniformGrid>
+
+            <!-- ═══ Analytics Row — Health Score + Top Apps (NO Storage Breakdown) ═══ -->
+            <Grid x:Name="AnalyticsSection" Grid.Row="5" Margin="0,0,0,14">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Health Score -->
+                <Border Grid.Column="0" Style="{StaticResource Card}" Margin="0,0,6,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                            <TextBlock Text="&#xE9D9;" FontFamily="Segoe MDL2 Assets" FontSize="20"
+                                       Margin="0,0,8,0" Foreground="#34D399" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Dashboard.HealthScore}" FontSize="13" FontWeight="SemiBold"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                        </StackPanel>
+
+                        <Grid HorizontalAlignment="Center" Margin="0,8,0,12">
+                            <Ellipse Width="150" Height="150"
+                                     Fill="Transparent"
+                                     Stroke="{DynamicResource BorderBrush}"
+                                     StrokeThickness="6" Opacity="0.3"/>
+                            <Ellipse Width="150" Height="150"
+                                     Fill="Transparent"
+                                     StrokeThickness="6"
+                                     Stroke="{Binding HealthColor, Converter={StaticResource HexToBrush}}"/>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding HealthScoreDisplay}" FontSize="48" FontWeight="Bold"
+                                           HorizontalAlignment="Center" FlowDirection="LeftToRight"
+                                           Foreground="{Binding HealthColor, Converter={StaticResource HexToBrush}}"/>
+                                <TextBlock Text="{Binding HealthGrade}" FontSize="13" FontWeight="SemiBold"
+                                           HorizontalAlignment="Center" Margin="0,2,0,0"
+                                           Foreground="{Binding HealthColor, Converter={StaticResource HexToBrush}}"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Border Background="{DynamicResource CardHoverBrush}" CornerRadius="6" Padding="12,10">
+                            <TextBlock Text="{DynamicResource Dashboard.CompositeScore}"
+                                       FontSize="10" TextWrapping="Wrap" TextAlignment="Center"
+                                       Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- Top Apps -->
+                <Border Grid.Column="1" Style="{StaticResource Card}" Margin="6,0,0,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <TextBlock Text="&#xE9D9;" FontFamily="Segoe MDL2 Assets" FontSize="20"
+                                       Margin="0,0,8,0" Foreground="#22D3EE" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Dashboard.TopApps}" FontSize="13" FontWeight="SemiBold"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource NetworkAccentBrush}"/>
+                            <TextBlock Text="  ·  CPU · RAM · Score" FontSize="10" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource MutedForegroundBrush}"/>
+                        </StackPanel>
+                        <ScrollViewer MaxHeight="290" VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      CanContentScroll="False" IsDeferredScrollingEnabled="False">
+                            <ItemsControl ItemsSource="{Binding TopApps}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,0,8,10" FlowDirection="LeftToRight">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="55"/>
+                                                <ColumnDefinition Width="70"/>
+                                                <ColumnDefinition Width="50"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Name}" FontSize="11"
+                                                       TextTrimming="CharacterEllipsis" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding CpuDisplay}" FontSize="10"
+                                                       HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                       FontWeight="SemiBold" Foreground="#F59E0B"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding MemDisplay}" FontSize="10"
+                                                       HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                       FontWeight="SemiBold" Foreground="#A855F7"/>
+                                            <TextBlock Grid.Column="3" Text="{Binding ScoreDisplay}" FontSize="10" FontWeight="Bold"
+                                                       HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource NetworkAccentBrush}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <TextBlock Text="{DynamicResource Dashboard.NoActiveApps}"
+                                   FontSize="11" Margin="0,20,0,20"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource MutedForegroundBrush}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TopApps.Count}" Value="0">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- ═══ Recent Activity ═══ -->
+            <Border x:Name="ActivityCard" Grid.Row="6"
+                    Background="{DynamicResource ActivityCardBrush}" BorderBrush="{DynamicResource ActivityBorderBrush}"
+                    BorderThickness="1" CornerRadius="10" Padding="18" Margin="0,0,0,14" MinHeight="200">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/><RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="0,0,0,12">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="&#xE81C;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Margin="0,0,8,0" Foreground="#EC4899" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Dashboard.RecentActivity}" FontSize="14" FontWeight="SemiBold"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource ActivityAccentBrush}"/>
+                        </StackPanel>
+                        <Button Content="{DynamicResource Common.Clear}" Command="{Binding ClearActivityCommand}"
+                                HorizontalAlignment="Right" Style="{StaticResource GhostButton}"
+                                Padding="8,3" FontSize="10"/>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                                  CanContentScroll="False">
+                        <StackPanel>
+                            <ItemsControl ItemsSource="{Binding RecentActivity}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,0,0,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Icon}" FontSize="16"
+                                                       VerticalAlignment="Center" Margin="0,0,10,0"
+                                                       FlowDirection="LeftToRight"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Message}" FontSize="12"
+                                                       TextTrimming="CharacterEllipsis" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding RelativeTime}" FontSize="10"
+                                                       VerticalAlignment="Center" Margin="6,0,0,0" FlowDirection="LeftToRight"
+                                                       Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <TextBlock Text="{DynamicResource Dashboard.NoActivity}" FontSize="12"
+                                       Foreground="{DynamicResource MutedForegroundBrush}"
+                                       HorizontalAlignment="Center" Margin="0,20,0,20">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RecentActivity.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- ═══ Host System ═══ -->
+            <Border x:Name="SystemCard" Grid.Row="7" Style="{StaticResource Card}" Padding="18">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                        <TextBlock Text="&#xE7F8;" FontFamily="Segoe MDL2 Assets" FontSize="20"
+                                   Margin="0,0,8,0" Foreground="{DynamicResource AccentBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource Dashboard.HostSystem}" FontSize="14" FontWeight="SemiBold"
+                                   VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                    <UniformGrid Columns="4">
+                        <Border Background="{DynamicResource CardHoverBrush}" CornerRadius="8"
+                                Padding="12" Margin="0,0,6,0">
+                            <StackPanel FlowDirection="LeftToRight">
+                                <TextBlock Text="{DynamicResource Dashboard.OS}" FontSize="10" FlowDirection="LeftToRight"
+                                           Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                <TextBlock Text="{Binding SystemOs}" FontSize="13" FontWeight="SemiBold"
+                                           Margin="0,4,0,0" FlowDirection="LeftToRight" TextTrimming="CharacterEllipsis"
+                                           Foreground="{DynamicResource ForegroundBrush}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardHoverBrush}" CornerRadius="8"
+                                Padding="12" Margin="6,0,6,0">
+                            <StackPanel FlowDirection="LeftToRight">
+                                <TextBlock Text="{DynamicResource Dashboard.Build}" FontSize="10" FlowDirection="LeftToRight"
+                                           Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                <TextBlock Text="{Binding SystemBuild}" FontSize="13" FontWeight="SemiBold"
+                                           Margin="0,4,0,0" FlowDirection="LeftToRight" TextTrimming="CharacterEllipsis"
+                                           Foreground="{DynamicResource ForegroundBrush}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardHoverBrush}" CornerRadius="8"
+                                Padding="12" Margin="6,0,6,0">
+                            <StackPanel FlowDirection="LeftToRight">
+                                <TextBlock Text="{DynamicResource Dashboard.Machine}" FontSize="10" FlowDirection="LeftToRight"
+                                           Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                <TextBlock Text="{Binding MachineName}" FontSize="13" FontWeight="SemiBold"
+                                           Margin="0,4,0,0" FlowDirection="LeftToRight" TextTrimming="CharacterEllipsis"
+                                           Foreground="{DynamicResource ForegroundBrush}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardHoverBrush}" CornerRadius="8"
+                                Padding="12" Margin="6,0,0,0">
+                            <StackPanel FlowDirection="LeftToRight">
+                                <TextBlock Text="{DynamicResource Dashboard.AppRuntime}" FontSize="10" FlowDirection="LeftToRight"
+                                           Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                <TextBlock Text="{Binding Version}" FontSize="13" FontWeight="SemiBold"
+                                           Margin="0,4,0,0" FlowDirection="LeftToRight" TextTrimming="CharacterEllipsis"
+                                           Foreground="{DynamicResource ForegroundBrush}"/>
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

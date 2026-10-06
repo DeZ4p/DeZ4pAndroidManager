@@ -1,0 +1,39 @@
+# (c) DeZ4p | t.me/DeZ4p | All Rights Reserved
+
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Asia/Tehran"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "nuget"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    groups:
+      microsoft:
+        patterns:
+          - "Microsoft.*"
+      testing:
+        patterns:
+          - "xunit*"
+          - "Moq"
+          - "FluentAssertions"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "ci"
+    commit-message:
+      prefix: "chore(ci)"
+      include: "scope"

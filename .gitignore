@@ -1,0 +1,74 @@
+# (c) DeZ4p | t.me/DeZ4p | All Rights Reserved
+
+# ─── Build output ───
+[Bb]in/
+[Oo]bj/
+publish/
+artifacts/
+*.dll
+*.pdb
+*.nupkg
+*.snupkg
+
+# ─── Bundled tools (downloaded via tools/download-tools.ps1) ───
+src/DeZ4pAndroidManager/tools/platform-tools/
+src/DeZ4pAndroidManager/tools/scrcpy/
+!src/DeZ4pAndroidManager/tools/download-tools.ps1
+!src/DeZ4pAndroidManager/tools/.gitkeep
+
+# ─── Installer output ───
+installer/Output/
+installer/build/
+*.iss.bak
+
+# ─── IDE / Editor ───
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+_ReSharper*/
+
+# ─── NuGet ───
+packages/
+project.lock.json
+project.fragment.lock.json
+*.cache
+*.tlog
+
+# ─── OS junk ───
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+*~
+.fuse_hidden*
+
+# ─── Logs ───
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# ─── Project-specific: dump files ───
+DeZ4p_Dump_*.txt
+DeZ4p-Project-Snapshot.txt
+*.dump.txt
+.readme.part*
+.dezp-build-state.json
+
+# ─── Secrets ───
+.env
+.env.local
+*.pfx
+*.snk
+secrets.json
+
+# ─── Screenshots (allow folder but ignore previews) ───
+docs/screenshots/*.tmp

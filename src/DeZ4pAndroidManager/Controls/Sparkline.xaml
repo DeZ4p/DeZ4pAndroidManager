@@ -1,0 +1,27 @@
+<!-- © DeZ4p | t.me/DeZ4p | All Rights Reserved -->
+<UserControl x:Class="DeZ4pAndroidManager.Controls.Sparkline"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ClipToBounds="True"
+             Background="Transparent">
+    <Grid>
+        <Canvas x:Name="ChartCanvas" ClipToBounds="True">
+            <!-- Gradient fill under line -->
+            <Polygon x:Name="FillArea" Opacity="0.18">
+                <Polygon.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="{Binding StrokeColor, RelativeSource={RelativeSource AncestorType=UserControl}}" Offset="0"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
+                    </LinearGradientBrush>
+                </Polygon.Fill>
+            </Polygon>
+            <!-- Line -->
+            <Polyline x:Name="Line"
+                      StrokeThickness="2"
+                      StrokeLineJoin="Round"
+                      StrokeStartLineCap="Round"
+                      StrokeEndLineCap="Round"
+                      Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        </Canvas>
+    </Grid>
+</UserControl>

@@ -1,0 +1,505 @@
+<!-- © DeZ4p | t.me/DeZ4p | All Rights Reserved -->
+<UserControl x:Class="DeZ4pAndroidManager.Views.ContactsSmsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,14">
+            <StackPanel>
+                <TextBlock Text="{DynamicResource Contacts.Title}" Style="{StaticResource PageTitle}"/>
+                <TextBlock Text="{DynamicResource Contacts.Subtitle}" Style="{StaticResource PageSubtitle}" Margin="0"/>
+            </StackPanel>
+            <Button Command="{Binding RefreshCommand}"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Tag="#4F8CFF" Style="{StaticResource ActionBarButton}"
+                    Padding="14,8">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets"
+                               FontSize="13" Foreground="#4F8CFF"
+                               Margin="0,0,8,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource Common.Refresh}"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource ForegroundBrush}"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="270"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="330"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- COLUMN 1: CONTACTS -->
+            <Border Grid.Column="0" Style="{StaticResource Card}" Padding="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Padding="10"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="0,0,0,1">
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource Contacts.ContactsHeader}"
+                                       FontSize="11" FontWeight="Bold"
+                                       Margin="2,0,0,8"
+                                       Foreground="{DynamicResource MutedForegroundBrush}"/>
+                            <Border Background="{DynamicResource CardHoverBrush}"
+                                    CornerRadius="3" Padding="10,6">
+                                <Grid>
+                                    <TextBlock Text="&#xE721;" FontFamily="Segoe MDL2 Assets"
+                                               FontSize="13" Margin="2,0,8,0"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                    <TextBox Text="{Binding ContactSearchText, UpdateSourceTrigger=PropertyChanged}"
+                                             Background="Transparent" BorderThickness="0"
+                                             FontSize="12.5" Margin="22,0,0,0"
+                                             VerticalContentAlignment="Center"
+                                             Foreground="{DynamicResource ForegroundBrush}"
+                                             CaretBrush="{DynamicResource ForegroundBrush}"
+                                             SelectionBrush="{DynamicResource AccentBrush}"/>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <Grid Grid.Row="1">
+                        <ListBox ItemsSource="{Binding FilteredContacts}"
+                                 SelectedItem="{Binding SelectedContact}"
+                                 Background="Transparent" BorderThickness="0"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="4,3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Width="32" Height="32"
+                                                CornerRadius="16"
+                                                Background="{Binding AvatarBrush}"
+                                                Margin="0,0,10,0"
+                                                VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Initial}"
+                                                       FontSize="12" FontWeight="Bold"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding DisplayName}"
+                                                       FontSize="12" FontWeight="SemiBold"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                                            <TextBlock Text="{Binding PrimaryPhone}"
+                                                       FontSize="10.5" Margin="0,1,0,0"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+
+                    <Border Grid.Row="2" Padding="10,7"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="0,1,0,0">
+                        <TextBlock FontSize="10" TextTrimming="CharacterEllipsis"
+                                   Foreground="{DynamicResource MutedForegroundBrush}">
+                            <Run Text="{Binding Contacts.Count, Mode=OneWay}"/>
+                            <Run Text="{DynamicResource Contacts.ContactsCount}"/>
+                        </TextBlock>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- COLUMN 2: CONVERSATIONS -->
+            <Border Grid.Column="2" Style="{StaticResource Card}" Padding="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Padding="10"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="0,0,0,1">
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource Contacts.ConversationsHeader}"
+                                       FontSize="11" FontWeight="Bold"
+                                       Margin="2,0,0,8"
+                                       Foreground="{DynamicResource MutedForegroundBrush}"/>
+                            <Border Background="{DynamicResource CardHoverBrush}"
+                                    CornerRadius="3" Padding="10,6">
+                                <Grid>
+                                    <TextBlock Text="&#xE721;" FontFamily="Segoe MDL2 Assets"
+                                               FontSize="13" Margin="2,0,8,0"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                    <TextBox Text="{Binding ConversationSearchText, UpdateSourceTrigger=PropertyChanged}"
+                                             Background="Transparent" BorderThickness="0"
+                                             FontSize="12.5" Margin="22,0,0,0"
+                                             VerticalContentAlignment="Center"
+                                             Foreground="{DynamicResource ForegroundBrush}"
+                                             CaretBrush="{DynamicResource ForegroundBrush}"
+                                             SelectionBrush="{DynamicResource AccentBrush}"/>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Row="1" Padding="10,8"
+                            Background="{DynamicResource CardHoverBrush}"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="0,0,0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="{DynamicResource CardBrush}"
+                                    CornerRadius="3" Padding="10,6">
+                                <Grid>
+                                    <TextBlock Text="{DynamicResource Contacts.NewNumberHint}"
+                                               FontSize="11.5"
+                                               IsHitTestVisible="False"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource MutedForegroundBrush}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding NewNumberText}" Value="">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <TextBox Text="{Binding NewNumberText, UpdateSourceTrigger=PropertyChanged}"
+                                             Background="Transparent" BorderThickness="0"
+                                             FontSize="12"
+                                             VerticalContentAlignment="Center"
+                                             Foreground="{DynamicResource ForegroundBrush}"
+                                             CaretBrush="{DynamicResource ForegroundBrush}"
+                                             SelectionBrush="{DynamicResource AccentBrush}"/>
+                                </Grid>
+                            </Border>
+                            <Button Grid.Column="1"
+                                    Command="{Binding StartChatFromNumberCommand}"
+                                    Tag="#22D3EE" Style="{StaticResource ActionBarButton}"
+                                    Padding="10,6" Margin="6,0,0,0">
+                                <TextBlock Text="&#xE8FB;" FontFamily="Segoe MDL2 Assets"
+                                           FontSize="13" Foreground="#22D3EE"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <Grid Grid.Row="2">
+                        <Border Background="#CC000000"
+                                Visibility="{Binding IsLoadingAll, Converter={StaticResource BoolToVis}}"
+                                Panel.ZIndex="5">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="&#xE895;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                                           Foreground="#4F8CFF" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Contacts.LoadingConversations}"
+                                           FontSize="11" Margin="0,8,0,0"
+                                           Foreground="White" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+
+                        <ListBox ItemsSource="{Binding FilteredConversations}"
+                                 SelectedItem="{Binding SelectedConversation}"
+                                 Background="Transparent" BorderThickness="0"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="4,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Grid.Column="0" Width="38" Height="38"
+                                                CornerRadius="19"
+                                                Background="{Binding AvatarBrush}"
+                                                Margin="0,0,10,0" VerticalAlignment="Top">
+                                            <TextBlock Text="{Binding Initial}"
+                                                       FontSize="14" FontWeight="Bold"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding DisplayName}"
+                                                       FontSize="12.5" FontWeight="SemiBold"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                                            <TextBlock Text="{Binding Preview}"
+                                                       FontSize="11" Margin="0,2,0,0"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2" VerticalAlignment="Top"
+                                                    HorizontalAlignment="Right" Margin="6,0,0,0">
+                                            <TextBlock Text="{Binding LastDateDisplay}"
+                                                       FontSize="10" HorizontalAlignment="Right"
+                                                       Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                            <Border Background="#4F8CFF" CornerRadius="9"
+                                                    MinWidth="18" Height="18"
+                                                    Padding="5,0" Margin="0,6,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    Visibility="{Binding HasUnread, Converter={StaticResource BoolToVis}}">
+                                                <TextBlock Text="{Binding UnreadCount}"
+                                                           FontSize="10" FontWeight="Bold"
+                                                           Foreground="White"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- COLUMN 3: CHAT -->
+            <Border Grid.Column="4" Style="{StaticResource Card}" Padding="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Padding="14,10"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="0,0,0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Width="34" Height="34" CornerRadius="17"
+                                    Background="{Binding SelectedConversation.AvatarBrush, FallbackValue=#22D3EE}"
+                                    VerticalAlignment="Center" Margin="0,0,12,0">
+                                <TextBlock Text="{Binding SelectedConversation.Initial, FallbackValue='?'}"
+                                           FontSize="14" FontWeight="Bold" Foreground="White"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding RecipientDisplay}"
+                                           FontSize="13.5" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource ForegroundBrush}"
+                                           TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Text="{Binding SelectedConversation.Subtitle}"
+                                           FontSize="10.5"
+                                           Foreground="{DynamicResource MutedForegroundBrush}"/>
+                            </StackPanel>
+
+                            <Button Grid.Column="2"
+                                    Command="{Binding CallCommand}"
+                                    Tag="#34D399"
+                                    Style="{StaticResource ActionBarButton}"
+                                    Padding="10,6" Margin="0,0,6,0"
+                                    IsEnabled="{Binding HasSelectedConversation}">
+                                <TextBlock Text="&#xE717;" FontFamily="Segoe MDL2 Assets"
+                                           FontSize="13" Foreground="#34D399"/>
+                            </Button>
+
+                            <Button Grid.Column="3"
+                                    Command="{Binding CopyNumberCommand}"
+                                    Tag="#818CF8"
+                                    Style="{StaticResource ActionBarButton}"
+                                    Padding="10,6"
+                                    IsEnabled="{Binding HasSelectedConversation}">
+                                <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets"
+                                           FontSize="13" Foreground="#818CF8"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <Grid Grid.Row="1">
+                        <Border Background="#CC000000"
+                                Visibility="{Binding IsLoadingMessages, Converter={StaticResource BoolToVis}}"
+                                Panel.ZIndex="5">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="&#xE895;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                                           Foreground="#22D3EE" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Contacts.LoadingMessages}"
+                                           FontSize="11" Margin="0,8,0,0"
+                                           Foreground="White" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="16,12"
+                                      HorizontalScrollBarVisibility="Disabled">
+                            <Grid>
+                                <ItemsControl ItemsSource="{Binding Messages}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,4">
+                                                <Border MaxWidth="520" CornerRadius="10" Padding="12,9">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                                                            <Setter Property="Background" Value="{DynamicResource CardHoverBrush}"/>
+                                                            <Setter Property="BorderThickness" Value="1"/>
+                                                            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsIncoming}" Value="False">
+                                                                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                                                                    <Setter Property="Background" Value="#4F8CFF"/>
+                                                                    <Setter Property="BorderBrush" Value="#4F8CFF"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Body}"
+                                                                   FontSize="12.5"
+                                                                   TextWrapping="Wrap">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsIncoming}" Value="False">
+                                                                            <Setter Property="Foreground" Value="White"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                        <TextBlock Text="{Binding DateDisplay}"
+                                                                   FontSize="9.5" Margin="0,5,0,0"
+                                                                   HorizontalAlignment="Right" Opacity="0.75">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Foreground" Value="{DynamicResource MutedForegroundBrush}"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsIncoming}" Value="False">
+                                                                            <Setter Property="Foreground" Value="White"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </Border>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <TextBlock FontSize="12"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Margin="0,60,0,0"
+                                           Foreground="{DynamicResource MutedForegroundBrush}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Setter Property="Text" Value="{DynamicResource Contacts.NoMessages}"/>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Messages.Count}" Value="0"/>
+                                                        <Condition Binding="{Binding IsLoadingMessages}" Value="False"/>
+                                                        <Condition Binding="{Binding HasSelectedConversation}" Value="True"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </MultiDataTrigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding HasSelectedConversation}" Value="False"/>
+                                                        <Condition Binding="{Binding IsLoadingMessages}" Value="False"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Setter Property="Text" Value="{DynamicResource Contacts.PickContactOrConversation}"/>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </ScrollViewer>
+                    </Grid>
+
+                    <Border Grid.Row="2" Padding="12,10"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="0,1,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Background="{DynamicResource CardHoverBrush}"
+                                    CornerRadius="10" Padding="12,8">
+                                <Grid>
+                                    <TextBlock Text="{DynamicResource Contacts.ComposeHint}"
+                                               FontSize="12"
+                                               IsHitTestVisible="False"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource MutedForegroundBrush}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ComposeText}" Value="">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <TextBox Text="{Binding ComposeText, UpdateSourceTrigger=PropertyChanged}"
+                                             Background="Transparent" BorderThickness="0"
+                                             FontSize="12.5"
+                                             VerticalContentAlignment="Center"
+                                             Foreground="{DynamicResource ForegroundBrush}"
+                                             CaretBrush="{DynamicResource ForegroundBrush}"
+                                             SelectionBrush="{DynamicResource AccentBrush}"/>
+                                </Grid>
+                            </Border>
+
+                            <Button Grid.Column="1"
+                                    Command="{Binding SendSmsCommand}"
+                                    Tag="#22D3EE"
+                                    Style="{StaticResource ActionBarButton}"
+                                    Padding="18,9" Margin="8,0,0,0"
+                                    IsEnabled="{Binding HasSelectedConversation}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE724;" FontFamily="Segoe MDL2 Assets"
+                                               FontSize="14" Foreground="#22D3EE"
+                                               Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource Contacts.Send}"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource ForegroundBrush}"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

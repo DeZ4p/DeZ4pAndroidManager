@@ -1,0 +1,245 @@
+<!-- Â© DeZ4p | t.me/DeZ4p | All Rights Reserved -->
+<UserControl x:Class="DeZ4pAndroidManager.Views.StorageAnalyzerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Focusable="True">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,14">
+            <StackPanel>
+                <TextBlock Text="{DynamicResource Storage.Title}" Style="{StaticResource PageTitle}"/>
+                <TextBlock Text="{DynamicResource Storage.Subtitle}" Style="{StaticResource PageSubtitle}" Margin="0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <ComboBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
+                          DisplayMemberPath="DisplayName" Width="220" Height="34"/>
+                <Button Command="{Binding RefreshCommand}" Tag="#4F8CFF"
+                        Style="{StaticResource ActionBarButton}" Padding="10,7" Margin="6,0,0,0">
+                    <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="13" Foreground="#4F8CFF"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- Total bar -->
+        <Border Grid.Row="1" Style="{StaticResource Card}" Padding="16" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="" FontFamily="Segoe MDL2 Assets"
+                           FontSize="30" Foreground="#F59E0B" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="{DynamicResource Storage.Total}" FontSize="10"
+                               Foreground="{DynamicResource MutedForegroundBrush}"/>
+                    <TextBlock Text="{Binding TotalDisplay}" FontSize="20" FontWeight="Bold"
+                               Foreground="{DynamicResource ForegroundBrush}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Margin="20,0,20,0" VerticalAlignment="Center">
+                    <TextBlock Text="{DynamicResource Storage.Used}" FontSize="10"
+                               Foreground="{DynamicResource MutedForegroundBrush}"/>
+                    <TextBlock Text="{Binding UsedDisplay}" FontSize="15" FontWeight="SemiBold"
+                               Foreground="#F59E0B"/>
+                </StackPanel>
+                <StackPanel Grid.Column="3" Margin="0,0,20,0" VerticalAlignment="Center">
+                    <TextBlock Text="{DynamicResource Storage.Free}" FontSize="10"
+                               Foreground="{DynamicResource MutedForegroundBrush}"/>
+                    <TextBlock Text="{Binding FreeDisplay}" FontSize="15" FontWeight="SemiBold"
+                               Foreground="#34D399"/>
+                </StackPanel>
+                <TextBlock Grid.Column="4" Text="{Binding UsedPercentDisplay}" FontSize="26"
+                           FontWeight="Bold" Foreground="#F59E0B" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- Main -->
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Folders -->
+            <Border Grid.Column="0" Style="{StaticResource Card}" Padding="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Padding="14,10" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1">
+                        <TextBlock Text="{DynamicResource Storage.Folders}" FontSize="12.5" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </Border>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="8">
+                        <ItemsControl ItemsSource="{Binding Folders}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{DynamicResource CardHoverBrush}" CornerRadius="3" Padding="10,8" Margin="0,0,0,4">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Icon}" FontFamily="Segoe MDL2 Assets"
+                                                       FontSize="16" Foreground="{Binding ColorBrush}"
+                                                       Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                            <StackPanel Grid.Column="1">
+                                                <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="SemiBold"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           Foreground="{DynamicResource ForegroundBrush}"/>
+                                                <ProgressBar Height="3" Margin="0,4,0,0" Maximum="100"
+                                                             Value="{Binding PercentOfTotal, Mode=OneWay}"
+                                                             Background="Transparent" BorderThickness="0"
+                                                             Foreground="{Binding ColorBrush}"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="10,0,0,0">
+                                                <TextBlock Text="{Binding SizeDisplay}" FontSize="11.5" FontWeight="SemiBold"
+                                                           HorizontalAlignment="Right"
+                                                           Foreground="{DynamicResource ForegroundBrush}"/>
+                                                <TextBlock Text="{Binding PercentDisplay}" FontSize="10"
+                                                           HorizontalAlignment="Right"
+                                                           Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- Categories -->
+            <Border Grid.Column="2" Style="{StaticResource Card}" Padding="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Padding="14,10" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1">
+                        <TextBlock Text="{DynamicResource Storage.Categories}" FontSize="12.5" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </Border>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="8">
+                        <ItemsControl ItemsSource="{Binding Categories}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{DynamicResource CardHoverBrush}" CornerRadius="3" Padding="12,10" Margin="0,0,0,6">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Icon}" FontFamily="Segoe MDL2 Assets"
+                                                       FontSize="20" Foreground="{Binding ColorBrush}"
+                                                       Margin="0,0,12,0" VerticalAlignment="Center"/>
+                                            <StackPanel Grid.Column="1">
+                                                <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource ForegroundBrush}"/>
+                                                <TextBlock FontSize="10" Margin="0,2,0,0"
+                                                           Foreground="{DynamicResource MutedForegroundBrush}">
+                                                    <Run Text="{Binding CountDisplay, Mode=OneWay}"/>
+                                                    <Run Text="file(s)"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding SizeDisplay}" FontSize="13" FontWeight="Bold"
+                                                           HorizontalAlignment="Right"
+                                                           Foreground="{Binding ColorBrush}"/>
+                                                <TextBlock Text="{Binding PercentDisplay}" FontSize="10"
+                                                           HorizontalAlignment="Right"
+                                                           Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- Largest files -->
+            <Border Grid.Column="4" Style="{StaticResource Card}" Padding="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Padding="14,10" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1">
+                        <TextBlock Text="{DynamicResource Storage.Largest}" FontSize="12.5" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </Border>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="8">
+                        <ItemsControl ItemsSource="{Binding LargestFiles}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{DynamicResource CardHoverBrush}" CornerRadius="3" Padding="10,8" Margin="0,0,0,4">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0">
+                                                <TextBlock Text="{Binding Name}" FontSize="11.5" FontWeight="SemiBold"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           Foreground="{DynamicResource ForegroundBrush}"/>
+                                                <TextBlock Text="{Binding Path}" FontSize="9.5" Margin="0,1,0,0"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                            </StackPanel>
+                                            <TextBlock Grid.Column="1" Text="{Binding SizeDisplay}"
+                                                       FontSize="11" FontWeight="Bold"
+                                                       VerticalAlignment="Center" Margin="8,0,0,0"
+                                                       Foreground="#EC4899"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Status -->
+        <Border Grid.Row="2" Style="{StaticResource Card}" Padding="10,8" Margin="0,0,0,10">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="8" Height="8" Fill="#34D399" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Text="{Binding StatusMessage}" FontSize="11.5" VerticalAlignment="Center"
+                               Foreground="{DynamicResource ForegroundBrush}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Command="{Binding SaveReportCommand}" Tag="#4F8CFF"
+                            Style="{StaticResource ActionBarButton}" Padding="12,6" Margin="0,0,6,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                       Foreground="#4F8CFF" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Storage.SaveReport}" FontSize="11"
+                                       VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding OpenReportFolderCommand}" Tag="#F59E0B"
+                            Style="{StaticResource ActionBarButton}" Padding="10,6">
+                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="12" Foreground="#F59E0B"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

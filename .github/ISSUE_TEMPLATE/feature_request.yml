@@ -1,0 +1,131 @@
+# (c) DeZ4p | t.me/DeZ4p | All Rights Reserved
+
+name: "Feature Request"
+description: "Suggest an idea or new feature"
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature!
+        Please describe your idea clearly so we can evaluate it properly.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: "Preflight Checklist"
+      options:
+        - label: "I searched existing issues and this is not a duplicate"
+          required: true
+        - label: "This feature is not already listed in the Roadmap section of the README"
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Problem Statement"
+      description: "What problem does this feature solve?"
+      placeholder: "I am always frustrated when ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Proposed Solution"
+      description: "How would you like it to work?"
+      placeholder: "It would be great if ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives Considered"
+      description: "Any alternative approaches you have thought about?"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Feature Category"
+      options:
+        - "Dashboard / Monitoring"
+        - "Device Info"
+        - "File Manager"
+        - "App / APK Management"
+        - "Backup & Restore"
+        - "Flash / Bootloader"
+        - "Partition Tools"
+        - "ADB Console / Fastboot Console"
+        - "Logcat Viewer"
+        - "Process Manager"
+        - "Sensors / Battery / Thermal"
+        - "Storage Analyzer"
+        - "Network Tools"
+        - "Wireless ADB"
+        - "Security / Permissions / Privacy"
+        - "Screen Mirror / Screenshot / Record"
+        - "Script Runner / Task Scheduler"
+        - "Localization"
+        - "UI / UX"
+        - "Themes"
+        - "Performance"
+        - "Installer / Distribution"
+        - "Documentation"
+        - "Other"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Priority (from your point of view)"
+      options:
+        - "Low - Nice to have"
+        - "Medium - Would help a lot"
+        - "High - Blocking my workflow"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: "Target Platform"
+      description: "Which platforms should this feature support?"
+      options:
+        - "Windows only"
+        - "Windows + Android (both)"
+        - "Android only"
+        - "Not applicable"
+    validations:
+      required: false
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: "Use Case"
+      description: "Describe how you (or others) would use this feature"
+      placeholder: "I would use this when ..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: "Mockups / Screenshots"
+      description: "Drag and drop any UI mockups or screenshots here"
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: "Additional Context"
+      description: "Anything else you want to add"
+    validations:
+      required: false

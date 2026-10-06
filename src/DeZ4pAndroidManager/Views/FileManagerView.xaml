@@ -1,0 +1,427 @@
+<!-- © DeZ4p | t.me/DeZ4p | All Rights Reserved -->
+<UserControl x:Class="DeZ4pAndroidManager.Views.FileManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Focusable="True">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,14">
+            <TextBlock Text="{DynamicResource FileManager.Title}" Style="{StaticResource PageTitle}"/>
+            <TextBlock Text="{DynamicResource FileManager.Subtitle}"
+                       Style="{StaticResource PageSubtitle}" Margin="0"/>
+        </StackPanel>
+
+        <!-- Toolbar -->
+        <Border Grid.Row="1" Style="{StaticResource Card}" Padding="10" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" FlowDirection="LeftToRight">
+                    <Button Command="{Binding NavigateUpCommand}"
+                            Style="{StaticResource GhostButton}"
+                            Padding="10,6" Margin="0,0,6,0"
+                            IsEnabled="{Binding CanNavigateUp}"
+                            ToolTip="{DynamicResource FileManager.TipUp}">
+                        <TextBlock Text="&#xE74A;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
+                    </Button>
+                    <Button Command="{Binding HomeCommand}"
+                            Style="{StaticResource GhostButton}"
+                            Padding="10,6" Margin="0,0,6,0"
+                            ToolTip="{DynamicResource FileManager.TipHome}">
+                        <TextBlock Text="&#xE80F;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
+                    </Button>
+                    <Button Command="{Binding RefreshCommand}"
+                            Style="{StaticResource GhostButton}"
+                            Padding="10,6"
+                            ToolTip="{DynamicResource FileManager.TipRefresh}">
+                        <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
+                    </Button>
+                </StackPanel>
+
+                <Border Grid.Column="1" Margin="10,0"
+                        Background="{DynamicResource CardHoverBrush}"
+                        CornerRadius="3" Padding="8,4">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding Breadcrumbs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Command="{Binding DataContext.NavigateToCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding Path}"
+                                                Background="Transparent" BorderThickness="0"
+                                                Padding="6,2" Cursor="Hand"
+                                                Foreground="{DynamicResource ForegroundBrush}">
+                                            <TextBlock Text="{Binding Name}" FontSize="12"/>
+                                        </Button>
+                                        <TextBlock Text="›" FontSize="14" VerticalAlignment="Center" Margin="2,0"
+                                                   Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+
+                <TextBlock Grid.Column="2" Text="{Binding StatusMessage}"
+                           FontSize="11" VerticalAlignment="Center" MaxWidth="280"
+                           TextTrimming="CharacterEllipsis"
+                           Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+            </Grid>
+        </Border>
+
+        <!-- Main: List + Preview -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="360"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource Card}" Padding="0">
+                <Grid>
+                    <Border Background="#CC000000"
+                            Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}"
+                            Panel.ZIndex="10" CornerRadius="3">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="&#xE895;" FontFamily="Segoe MDL2 Assets" FontSize="28"
+                                       Foreground="#4F8CFF" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource FileManager.Loading}"
+                                       FontSize="12" Margin="0,10,0,0"
+                                       Foreground="White" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <ListView x:Name="FileListView"
+                              ItemsSource="{Binding Items}"
+                              SelectionMode="Extended"
+                              Background="Transparent" BorderThickness="0"
+                              Foreground="{DynamicResource ForegroundBrush}"
+                              SelectionChanged="OnSelectionChanged"
+                              MouseDoubleClick="OnItemDoubleClick">
+                        <ListView.InputBindings>
+                            <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCommand}"/>
+                            <KeyBinding Key="X" Modifiers="Control" Command="{Binding CutCommand}"/>
+                            <KeyBinding Key="V" Modifiers="Control" Command="{Binding PasteCommand}"/>
+                            <KeyBinding Key="Delete" Command="{Binding DeleteCommand}"/>
+                            <KeyBinding Key="F2" Command="{Binding RenameCommand}"/>
+                            <KeyBinding Key="F5" Command="{Binding RefreshCommand}"/>
+                            <KeyBinding Key="Return" Command="{Binding OpenItemCommand}"/>
+                        </ListView.InputBindings>
+
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="40">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding IconGlyph}" FontFamily="Segoe MDL2 Assets"
+                                                       FontSize="18" Foreground="{Binding IconColor}"
+                                                       VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource FileManager.ColName}" Width="280" DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="{DynamicResource FileManager.ColSize}" Width="90" DisplayMemberBinding="{Binding SizeDisplay}"/>
+                                <GridViewColumn Header="{DynamicResource FileManager.ColType}" Width="120" DisplayMemberBinding="{Binding TypeDisplay}"/>
+                                <GridViewColumn Header="{DynamicResource FileManager.ColModified}" Width="140" DisplayMemberBinding="{Binding ModifiedDisplay}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </Border>
+
+            <!-- ═══ PREVIEW PANE ═══ -->
+            <Border Grid.Column="2" Style="{StaticResource Card}" Padding="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Padding="14,10"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="0,0,0,1">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8B9;" FontFamily="Segoe MDL2 Assets"
+                                       FontSize="16" Foreground="#4F8CFF"
+                                       Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource FileManager.PreviewHeader}"
+                                       FontSize="12.5" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource ForegroundBrush}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Grid Grid.Row="1">
+                        <!-- No selection -->
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasSelection}" Value="False">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <TextBlock Text="&#xE8B9;" FontFamily="Segoe MDL2 Assets"
+                                       FontSize="48" Foreground="{DynamicResource MutedForegroundBrush}"
+                                       HorizontalAlignment="Center" Opacity="0.5"/>
+                            <TextBlock Text="{DynamicResource FileManager.NoPreview}"
+                                       FontSize="12" Margin="0,14,0,0"
+                                       Foreground="{DynamicResource MutedForegroundBrush}"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Preview content -->
+                        <Grid>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasSelection}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Image preview -->
+                            <Border Grid.Row="0" Background="#0A0A0A" MinHeight="220" MaxHeight="340"
+                                    Visibility="{Binding HasImagePreview, Converter={StaticResource BoolToVis}}">
+                                <Grid>
+                                    <Image Source="{Binding PreviewImage}" Stretch="Uniform" Margin="8"/>
+                                    <Border Background="#88000000"
+                                            Visibility="{Binding IsPreviewLoading, Converter={StaticResource BoolToVis}}">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="&#xE895;" FontFamily="Segoe MDL2 Assets"
+                                                       FontSize="26" Foreground="#4F8CFF"
+                                                       HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{DynamicResource FileManager.PreviewLoading}"
+                                                       FontSize="11" Margin="0,8,0,0"
+                                                       Foreground="White" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </Border>
+
+                            <!-- File info -->
+                            <StackPanel Grid.Row="2" Margin="14,10,14,14">
+                                <TextBlock Text="{Binding PreviewName}"
+                                           FontSize="13" FontWeight="SemiBold"
+                                           TextTrimming="CharacterEllipsis"
+                                           Foreground="{DynamicResource ForegroundBrush}"/>
+                                <Grid Margin="0,8,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,6">
+                                        <TextBlock Text="{DynamicResource FileManager.ColType}" FontSize="10"
+                                                   Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                        <TextBlock Text="{Binding PreviewKind}" FontSize="11.5" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,6">
+                                        <TextBlock Text="{DynamicResource FileManager.ColSize}" FontSize="10"
+                                                   Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                        <TextBlock Text="{Binding PreviewSize}" FontSize="11.5" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                                        <TextBlock Text="{DynamicResource FileManager.ColModified}" FontSize="10"
+                                                   Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                        <TextBlock Text="{Binding PreviewModified}" FontSize="11.5" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,6,0,0">
+                                        <TextBlock Text="{DynamicResource FileManager.ColPath}" FontSize="10"
+                                                   Foreground="{DynamicResource MutedForegroundBrush}"/>
+                                        <TextBlock Text="{Binding PreviewFullPath}" FontSize="10"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="{DynamicResource SecondaryForegroundBrush}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+
+                    <Border Grid.Row="2" Padding="12,10"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="0,1,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0"
+                                    Command="{Binding OpenItemCommand}"
+                                    Tag="{Binding PrimaryActionColor}"
+                                    Style="{StaticResource ActionBarButton}"
+                                    Padding="14,9" Margin="0,0,6,0"
+                                    IsEnabled="{Binding HasSelection}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding PrimaryActionIcon}" FontFamily="Segoe MDL2 Assets"
+                                               FontSize="14" Foreground="{Binding PrimaryActionColor}"
+                                               Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding PrimaryActionLabel}"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource ForegroundBrush}"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button Grid.Column="1"
+                                    Command="{Binding OpenWithCommand}"
+                                    Tag="#818CF8"
+                                    Style="{StaticResource ActionBarButton}"
+                                    Padding="12,9"
+                                    IsEnabled="{Binding HasSelectedFile}"
+                                    ToolTip="{DynamicResource FileManager.OpenWith}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE7B8;" FontFamily="Segoe MDL2 Assets"
+                                               FontSize="14" Foreground="#818CF8"
+                                               Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource FileManager.OpenWithShort}"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource ForegroundBrush}"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Bottom action bar -->
+        <Border Grid.Row="3" Style="{StaticResource Card}" Padding="12" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+
+                <Button Command="{Binding OpenItemCommand}"
+                        Tag="{Binding PrimaryActionColor}"
+                        Style="{StaticResource ActionBarButton}" ToolTip="Enter">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding PrimaryActionIcon}" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                   Foreground="{Binding PrimaryActionColor}"
+                                   Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding PrimaryActionLabel}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding DownloadCommand}" Tag="#22D3EE"
+                        Style="{StaticResource ActionBarButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE896;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                   Foreground="#22D3EE" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource FileManager.Download}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding UploadCommand}" Tag="#34D399"
+                        Style="{StaticResource ActionBarButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE898;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                   Foreground="#34D399" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource FileManager.UploadHere}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                </Button>
+
+                <Border Width="1" Background="{DynamicResource BorderBrush}" Margin="4,2,10,2"/>
+
+                <Button Command="{Binding CopyCommand}" Tag="#A855F7"
+                        Style="{StaticResource ActionBarButton}" ToolTip="Ctrl+C">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                   Foreground="#A855F7" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource FileManager.Copy}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding CutCommand}" Tag="#F59E0B"
+                        Style="{StaticResource ActionBarButton}" ToolTip="Ctrl+X">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8C6;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                   Foreground="#F59E0B" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource FileManager.Cut}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding PasteCommand}" Tag="#EC4899"
+                        Style="{StaticResource ActionBarButton}" ToolTip="Ctrl+V">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE77F;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                   Foreground="#EC4899" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource FileManager.Paste}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                </Button>
+
+                <Border Width="1" Background="{DynamicResource BorderBrush}" Margin="4,2,10,2"/>
+
+                <Button Command="{Binding NewFolderCommand}" Tag="#FBBF24"
+                        Style="{StaticResource ActionBarButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8F4;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                   Foreground="#FBBF24" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource FileManager.NewFolder}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding RenameCommand}" Tag="#818CF8"
+                        Style="{StaticResource ActionBarButton}"
+                        IsEnabled="{Binding HasSelection}" ToolTip="F2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8AC;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                   Foreground="#818CF8" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource FileManager.Rename}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding DeleteCommand}" Tag="#EF4444"
+                        Style="{StaticResource ActionBarButton}"
+                        IsEnabled="{Binding HasSelection}" ToolTip="Del">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                   Foreground="#EF4444" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource FileManager.Delete}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

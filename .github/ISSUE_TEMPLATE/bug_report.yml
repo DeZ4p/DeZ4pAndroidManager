@@ -1,0 +1,146 @@
+# (c) DeZ4p | t.me/DeZ4p | All Rights Reserved
+
+name: "Bug Report"
+description: "Report a bug or unexpected behavior"
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug!
+        Please fill out every field so we can reproduce it fast.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: "Preflight Checklist"
+      options:
+        - label: "I am using the latest release from the Releases page"
+          required: true
+        - label: "I searched existing issues and this is not a duplicate"
+          required: true
+        - label: "I have read the README and CONTRIBUTING guidelines"
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Bug Description"
+      description: "A clear and concise description of the bug"
+      placeholder: "When I click ..., the app ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: "Steps to Reproduce"
+      placeholder: |
+        1. Connect device via USB
+        2. Open page ...
+        3. Click ...
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected Behavior"
+      description: "What did you expect to happen?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: "Actual Behavior"
+      description: "What actually happened?"
+    validations:
+      required: true
+
+  - type: input
+    id: app_version
+    attributes:
+      label: "App Version"
+      description: "Shown in the sidebar (e.g. v1.0.0)"
+      placeholder: "v1.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: windows
+    attributes:
+      label: "Windows Version"
+      options:
+        - "Windows 11"
+        - "Windows 10 (1809 or newer)"
+        - "Windows Server 2019/2022"
+        - "Other (specify in description)"
+    validations:
+      required: true
+
+  - type: input
+    id: dotnet
+    attributes:
+      label: ".NET Version (if applicable)"
+      description: "Output of `dotnet --version`"
+      placeholder: "8.0.x"
+    validations:
+      required: false
+
+  - type: input
+    id: adb_version
+    attributes:
+      label: "ADB Version (if applicable)"
+      description: "Output of `adb version`"
+      placeholder: "Android Debug Bridge version 1.0.41"
+    validations:
+      required: false
+
+  - type: input
+    id: device
+    attributes:
+      label: "Android Device (if applicable)"
+      description: "Model, OEM, and Android version"
+      placeholder: "Poco X6 Pro - Xiaomi - Android 14"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: device_mode
+    attributes:
+      label: "Device Mode"
+      description: "Which mode was the device in when the bug happened?"
+      options:
+        - "Android (normal / ADB)"
+        - "Recovery mode"
+        - "Bootloader / Fastboot mode"
+        - "Fastbootd mode"
+        - "EDL mode"
+        - "No device connected"
+        - "Not applicable"
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Logs / Screenshots"
+      description: |
+        Paste any relevant logs. Activity log is stored at:
+        `%LOCALAPPDATA%\DeZ4pAndroidManager\activity.json`
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: "Additional Context"
+      description: "Anything else you want to add"
+    validations:
+      required: false

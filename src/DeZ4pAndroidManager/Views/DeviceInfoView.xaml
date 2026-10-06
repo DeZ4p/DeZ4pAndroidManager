@@ -1,0 +1,385 @@
+<!-- © DeZ4p | t.me/DeZ4p | All Rights Reserved -->
+<UserControl x:Class="DeZ4pAndroidManager.Views.DeviceInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <Style x:Key="InfoCard" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="18"/>
+        </Style>
+        <Style x:Key="RowA" TargetType="Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="4,5"/>
+            <Setter Property="CornerRadius" Value="4"/>
+        </Style>
+        <Style x:Key="RowB" TargetType="Border" BasedOn="{StaticResource RowA}">
+            <Setter Property="Background" Value="#0D808080"/>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                  CanContentScroll="False" Padding="0,0,6,0">
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="PageHeader" Grid.Row="0" Margin="0,0,0,18">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource DeviceInfo.Title}" Style="{StaticResource PageTitle}"/>
+                    <TextBlock Text="{DynamicResource DeviceInfo.Subtitle}"
+                               Style="{StaticResource PageSubtitle}" Margin="0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" FlowDirection="LeftToRight">
+                    <TextBlock Text="{Binding LastUpdated, StringFormat='Updated: {0}'}"
+                               FontSize="11" VerticalAlignment="Center" Margin="0,0,10,0"
+                               FlowDirection="LeftToRight" Foreground="{DynamicResource MutedForegroundBrush}"/>
+                    <Button Command="{Binding RefreshCommand}" Style="{StaticResource GhostButton}" FlowDirection="LeftToRight">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                       Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Common.Refresh}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Border x:Name="HeroCard" Grid.Row="1"
+                    CornerRadius="12" Padding="22" Margin="0,0,0,14"
+                    Background="{DynamicResource HeroBackgroundBrush}"
+                    FlowDirection="LeftToRight">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="18" ShadowDepth="0" Opacity="0.25" Color="Black"/>
+                </Border.Effect>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="&#xE946;"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="56" Margin="0,0,18,0"
+                               Foreground="#4F8CFF" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding HeaderTitle}" FontSize="22" FontWeight="Bold"
+                                   Foreground="{DynamicResource HeroForegroundBrush}"/>
+                        <TextBlock Text="{Binding HeaderSubtitle}" FontSize="12" Margin="0,4,0,0"
+                                   Foreground="{DynamicResource HeroSecondaryForegroundBrush}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                            <Border Background="#4F8CFF" CornerRadius="4" Padding="8,3" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Android " FontSize="11" Foreground="White"/>
+                                    <TextBlock Text="{Binding AndroidText}" FontSize="11" FontWeight="Bold" Foreground="White"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="#34D399" CornerRadius="4" Padding="8,3" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="SDK " FontSize="11" Foreground="White"/>
+                                    <TextBlock Text="{Binding SdkLevelText}" FontSize="11" FontWeight="Bold" Foreground="White"/>
+                                </StackPanel>
+                            </Border>
+                            <Border CornerRadius="4" Padding="8,3" Background="#22D3EE">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="ABI " FontSize="11" Foreground="White"/>
+                                    <TextBlock Text="{Binding CpuAbiText}" FontSize="11" FontWeight="Bold" Foreground="White"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" FlowDirection="LeftToRight">
+                        <Border Background="{DynamicResource CardHoverBrush}" CornerRadius="8" Padding="14,10" Margin="0,0,0,8" MinWidth="200">
+                            <Grid>
+                                <TextBlock Text="{DynamicResource DeviceInfo.Uptime}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding UptimeText}" Style="{StaticResource RowValue}"/>
+                            </Grid>
+                        </Border>
+                        <Border Background="{DynamicResource CardHoverBrush}" CornerRadius="8" Padding="14,10" MinWidth="200">
+                            <Grid>
+                                <TextBlock Text="{DynamicResource DeviceInfo.KernelVersion}" Style="{StaticResource RowLabel}"/>
+                                <TextBlock Text="{Binding KernelText}" Style="{StaticResource RowValue}" MaxWidth="130" TextTrimming="CharacterEllipsis"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Row 1 -->
+            <UniformGrid x:Name="Row1" Grid.Row="2" Columns="2" Margin="0,0,0,14">
+                <Border Style="{StaticResource InfoCard}" Margin="0,0,6,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                            <TextBlock Text="&#xE8F1;" FontFamily="Segoe MDL2 Assets"
+                                       FontSize="24" Foreground="#4F8CFF"
+                                       Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource DeviceInfo.General}"
+                                       FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                        </StackPanel>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.Brand}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding BrandText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.Manufacturer}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding ManufacturerText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.ModelName}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding ModelText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.Codename}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding DeviceCodenameText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.AndroidVersion}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding AndroidText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.SDK}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding SdkLevelText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.BuildID}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding BuildIdText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.BuildDisplayID}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding BuildDisplayIdText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.SecurityPatch}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding SecurityPatchText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.BuildDate}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding BuildDateText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource InfoCard}" Margin="6,0,0,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                            <TextBlock Text="&#xE90F;" FontFamily="Segoe MDL2 Assets"
+                                       FontSize="24" Foreground="#F59E0B"
+                                       Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource DeviceInfo.Hardware}"
+                                       FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                        </StackPanel>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.CPUModel}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding CpuModelText}" Style="{StaticResource RowValue}" MaxWidth="180"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.CPUCores}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding CpuCoresText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.Architecture}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding CpuAbiText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.GPU}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding GpuRendererText}" Style="{StaticResource RowValue}" MaxWidth="180"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.HardwareName}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding HardwareText}" Style="{StaticResource RowValue}" MaxWidth="180"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.RAMTotal}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding RamTotalText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.RAMUsed}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding RamUsedText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.RAMFree}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding RamFreeText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.Swap}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding SwapText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.StorageTotal}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding StorageTotalText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- Row 2 -->
+            <UniformGrid x:Name="Row2" Grid.Row="3" Columns="2" Margin="0,0,0,14">
+                <Border Style="{StaticResource InfoCard}" Margin="0,0,6,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                            <TextBlock Text="&#xE7F4;" FontFamily="Segoe MDL2 Assets"
+                                       FontSize="24" Foreground="#818CF8"
+                                       Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource DeviceInfo.Display}"
+                                       FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                        </StackPanel>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.Resolution}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding ResolutionText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.Density}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding DensityText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.PhysicalSize}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding ScreenSizeText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.RefreshRate}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding RefreshRateText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource InfoCard}" Margin="6,0,0,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                            <TextBlock Text="&#xE83F;" FontFamily="Segoe MDL2 Assets"
+                                       FontSize="24" Foreground="#34D399"
+                                       Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource DeviceInfo.Battery}"
+                                       FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                        </StackPanel>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.BatteryLevel}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding BatteryLevelText}" Style="{StaticResource RowValue}" Foreground="#34D399"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.BatteryHealth}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding BatteryHealthText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.BatteryStatus}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding BatteryStatusText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.BatteryTemp}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding BatteryTempText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.BatteryVoltage}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding BatteryVoltageText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- Row 3 -->
+            <UniformGrid x:Name="Row3" Grid.Row="4" Columns="2" Margin="0,0,0,14">
+                <Border Style="{StaticResource InfoCard}" Margin="0,0,6,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                            <TextBlock Text="&#xE701;" FontFamily="Segoe MDL2 Assets"
+                                       FontSize="24" Foreground="#22D3EE"
+                                       Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource DeviceInfo.NetworkSection}"
+                                       FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                        </StackPanel>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.WiFiSSID}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding WifiSsidText}" Style="{StaticResource RowValue}" MaxWidth="200"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.WiFiIP}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding WifiIpText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.WiFiMAC}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding WifiMacText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.BluetoothName}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding BluetoothNameText}" Style="{StaticResource RowValue}" MaxWidth="200"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.SIMOperator}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding SimOperatorText}" Style="{StaticResource RowValue}" MaxWidth="200"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.NetworkType}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding NetworkTypeText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.ConnectionLabel}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding ConnectionText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource InfoCard}" Margin="6,0,0,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                            <TextBlock Text="&#xE72E;" FontFamily="Segoe MDL2 Assets"
+                                       FontSize="24" Foreground="#EF4444"
+                                       Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource DeviceInfo.SecuritySection}"
+                                       FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource ForegroundBrush}"/>
+                        </StackPanel>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.Bootloader}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding BootloaderText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.RootAccess}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding RootStatusText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowA}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.SELinux}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding SelinuxText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                        <Border Style="{StaticResource RowB}"><Grid>
+                            <TextBlock Text="{DynamicResource DeviceInfo.VerifiedBoot}" Style="{StaticResource RowLabel}"/>
+                            <TextBlock Text="{Binding VerifiedBootText}" Style="{StaticResource RowValue}"/>
+                        </Grid></Border>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- System -->
+            <Border x:Name="SystemCard" Grid.Row="5" Style="{StaticResource InfoCard}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                        <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets"
+                                   FontSize="24" Foreground="#A855F7"
+                                   Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource DeviceInfo.SystemSection}"
+                                   FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                    </StackPanel>
+                    <Border Style="{StaticResource RowA}"><Grid>
+                        <TextBlock Text="{DynamicResource DeviceInfo.KernelVersion}" Style="{StaticResource RowLabel}"/>
+                        <TextBlock Text="{Binding KernelText}" Style="{StaticResource RowValue}"/>
+                    </Grid></Border>
+                    <Border Style="{StaticResource RowB}"><Grid>
+                        <TextBlock Text="{DynamicResource DeviceInfo.Baseband}" Style="{StaticResource RowLabel}"/>
+                        <TextBlock Text="{Binding BasebandText}" Style="{StaticResource RowValue}"/>
+                    </Grid></Border>
+                    <Border Style="{StaticResource RowA}"><Grid>
+                        <TextBlock Text="{DynamicResource DeviceInfo.Uptime}" Style="{StaticResource RowLabel}"/>
+                        <TextBlock Text="{Binding UptimeText}" Style="{StaticResource RowValue}"/>
+                    </Grid></Border>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
