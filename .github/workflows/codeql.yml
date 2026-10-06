@@ -43,10 +43,10 @@ jobs:
           queries: security-and-quality
 
       - name: Restore
-        run: dotnet restore DeZ4pAndroidManager.sln
+        run: dotnet restore src/DeZ4pAndroidManager/DeZ4pAndroidManager.csproj
 
       - name: Build
-        run: dotnet build DeZ4pAndroidManager.sln -c Release --no-restore
+        run: dotnet build src/DeZ4pAndroidManager/DeZ4pAndroidManager.csproj -c Release --no-restore
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3

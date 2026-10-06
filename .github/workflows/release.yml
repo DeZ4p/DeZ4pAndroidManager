@@ -52,7 +52,7 @@ jobs:
           Write-Host "Tag: $tag  |  Version: $ver"
 
       - name: Restore
-        run: dotnet restore DeZ4pAndroidManager.sln
+        run: dotnet restore src/DeZ4pAndroidManager/DeZ4pAndroidManager.csproj
 
       - name: Download bundled tools (adb, fastboot, scrcpy)
         shell: pwsh
